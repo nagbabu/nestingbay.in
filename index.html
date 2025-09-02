@@ -581,7 +581,7 @@
                     <form id="contact-form" class="space-y-6">
                         <div>
                             <label class="block text-sm font-medium text-primary mb-2">Full Name</label>
-                            <input type="text" name="name" placeholder="Your full name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <input type="text" name="from_name" placeholder="Your full name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-primary mb-2">Phone Number</label>
@@ -589,7 +589,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-primary mb-2">Email Address</label>
-                            <input type="email" name="email" placeholder="your.email@example.com" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <input type="email" name="from_email" placeholder="your.email@example.com" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-primary mb-2">Service Required</label>
@@ -956,17 +956,10 @@
             });
         });
 
-        // Gallery functionality with dynamic image loading
+        // Gallery functionality with flexible image loading
         const galleryConfig = {
-            // Image folder structure - update these paths as needed
-            imageFolders: {
-                'living-room': './images/living-room/',
-                'kitchen': './images/kitchen/',
-                'bedroom': './images/bedroom/',
-                'dining': './images/dining/',
-                'bathroom': './images/bathroom/',
-                'office': './images/office/'
-            },
+            // Base folder path - you can change this to your images folder
+            basePath: './images/',
             
             // Fallback to high-quality stock images if local images not available
             fallbackImages: {
@@ -1008,22 +1001,27 @@
                 title: 'Living Room Designs',
                 images: [
                     {
+                        filename: 'living1.jpg',
                         title: 'Modern Living Room Design',
                         description: 'Contemporary design with neutral tones and premium finishes'
                     },
                     {
+                        filename: 'living2.jpg',
                         title: 'Luxury Living Space',
                         description: 'Elegant furniture arrangement with sophisticated styling'
                     },
                     {
+                        filename: 'living3.jpg',
                         title: 'Cozy Family Room',
                         description: 'Warm and inviting family gathering space'
                     },
                     {
+                        filename: 'living4.jpg',
                         title: 'Minimalist Lounge',
                         description: 'Clean lines and sophisticated modern styling'
                     },
                     {
+                        filename: 'living5.jpg',
                         title: 'Executive Living Suite',
                         description: 'Premium executive-style living room design'
                     }
@@ -1033,18 +1031,22 @@
                 title: 'Kitchen Designs',
                 images: [
                     {
+                        filename: 'kitchen1.jpg',
                         title: 'Modern Modular Kitchen',
                         description: 'Sleek modular design with premium appliances'
                     },
                     {
+                        filename: 'kitchen2.jpg',
                         title: 'L-Shaped Kitchen Layout',
                         description: 'Efficient L-shaped design maximizing space'
                     },
                     {
+                        filename: 'kitchen3.jpg',
                         title: 'Island Kitchen Design',
                         description: 'Spacious kitchen with central island'
                     },
                     {
+                        filename: 'kitchen4.jpg',
                         title: 'Galley Kitchen Style',
                         description: 'Compact galley-style kitchen design'
                     }
@@ -1054,14 +1056,17 @@
                 title: 'Bedroom Designs',
                 images: [
                     {
+                        filename: 'bedroom1.jpg',
                         title: 'Master Bedroom Suite',
                         description: 'Luxurious master bedroom with walk-in closet'
                     },
                     {
+                        filename: 'bedroom2.jpg',
                         title: 'Contemporary Bedroom',
                         description: 'Modern bedroom with built-in storage'
                     },
                     {
+                        filename: 'bedroom3.jpg',
                         title: 'Minimalist Bedroom',
                         description: 'Clean and serene bedroom design'
                     }
@@ -1071,10 +1076,12 @@
                 title: 'Dining Room Designs',
                 images: [
                     {
+                        filename: 'dining1.jpg',
                         title: 'Formal Dining Room',
                         description: 'Elegant formal dining space'
                     },
                     {
+                        filename: 'dining2.jpg',
                         title: 'Family Dining Area',
                         description: 'Cozy family dining space'
                     }
@@ -1084,10 +1091,12 @@
                 title: 'Bathroom Designs',
                 images: [
                     {
+                        filename: 'bathroom1.jpg',
                         title: 'Luxury Bathroom Suite',
                         description: 'Premium bathroom with spa-like features'
                     },
                     {
+                        filename: 'bathroom2.jpg',
                         title: 'Modern Bathroom Design',
                         description: 'Contemporary bathroom with modern fixtures'
                     }
@@ -1097,10 +1106,12 @@
                 title: 'Office Designs',
                 images: [
                     {
+                        filename: 'office1.jpg',
                         title: 'Home Office Design',
                         description: 'Productive home office workspace'
                     },
                     {
+                        filename: 'office2.jpg',
                         title: 'Executive Office Suite',
                         description: 'Professional executive office design'
                     }
@@ -1109,14 +1120,14 @@
         };
 
         // Function to get image source with fallback
-        function getImageSource(type, index) {
-            const folderPath = galleryConfig.imageFolders[type];
+        function getImageSource(type, filename, index) {
+            const basePath = galleryConfig.basePath;
             const fallbackImages = galleryConfig.fallbackImages[type];
             
-            // Try local image first (you can add your own images to these folders)
-            const localImagePath = `${folderPath}image-${index + 1}.jpg`;
+            // Try local image first using the provided filename
+            const localImagePath = `${basePath}${filename}`;
             
-            // Return fallback image if available, otherwise return a placeholder
+            // Return fallback image if available, otherwise return the local path
             return fallbackImages && fallbackImages[index] ? fallbackImages[index] : localImagePath;
         }
 
@@ -1135,17 +1146,14 @@
                 const imageDiv = document.createElement('div');
                 imageDiv.className = 'bg-white rounded-lg shadow-md overflow-hidden';
                 
-                const imageSrc = getImageSource(type, index);
+                const localImagePath = `${galleryConfig.basePath}${image.filename}`;
                 const fallbackSrc = galleryConfig.fallbackImages[type] && galleryConfig.fallbackImages[type][index] 
                     ? galleryConfig.fallbackImages[type][index] 
                     : '';
                 
-                // Always use fallback images for reliable display
-                const finalImageSrc = fallbackSrc || imageSrc;
-                
                 imageDiv.innerHTML = `
-                    <img src="${finalImageSrc}" alt="${image.title}" class="w-full h-48 object-cover" 
-                         onerror="this.style.display='none'; this.nextElementSibling.style.paddingTop='60px';">
+                    <img src="${localImagePath}" alt="${image.title}" class="w-full h-48 object-cover" 
+                         onerror="this.src='${fallbackSrc}'; if(!this.src) { this.style.display='none'; this.nextElementSibling.style.paddingTop='60px'; }">
                     <div class="p-4">
                         <h4 class="font-bold text-primary mb-2">${image.title}</h4>
                         <p class="text-gray-600 text-sm">${image.description}</p>
@@ -1210,5 +1218,5 @@
         // Show content immediately
         handleScrollAnimation();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'978f845a857f49d5',t:'MTc1Njg0MjQyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'978f8987d60049d5',t:'MTc1Njg0MjYzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
