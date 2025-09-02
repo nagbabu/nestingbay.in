@@ -833,14 +833,23 @@
         async function initializeProjects() {
             const projectTypes = ['living-room', 'kitchen', 'bedroom', 'dining', 'bathroom', 'office'];
             
+            // Always show all project cards with SVG placeholders
+            for (const projectType of projectTypes) {
+                const projectCard = document.getElementById(`project-${projectType}`);
+                if (projectCard) {
+                    projectCard.style.display = 'block';
+                    console.log(`✅ Showing ${projectType} project card with placeholder`);
+                }
+            }
+            
+            // Try to load actual images in the background
             for (const projectType of projectTypes) {
                 const previewImage = await getPreviewImage(projectType);
                 const projectCard = document.getElementById(`project-${projectType}`);
                 const previewImg = document.getElementById(`preview-${projectType}`);
                 
                 if (previewImage && projectCard && previewImg) {
-                    // Show the project card
-                    projectCard.style.display = 'block';
+                    // Add to available projects
                     availableProjects.add(projectType);
                     
                     // Load the preview image and hide SVG placeholder
@@ -865,26 +874,8 @@
                     
                     console.log(`✅ Loaded ${projectType} with preview: ${previewImage}`);
                 } else {
-                    console.log(`❌ No images found for ${projectType}`);
+                    console.log(`ℹ️ Using placeholder for ${projectType} - no images found`);
                 }
-            }
-            
-            // If no projects have images, show a message
-            if (availableProjects.size === 0) {
-                const portfolioSection = document.getElementById('portfolio');
-                const portfolioGrid = portfolioSection.querySelector('.grid');
-                portfolioGrid.innerHTML = `
-                    <div class="col-span-full text-center py-12">
-                        <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-primary mb-2">Portfolio Coming Soon</h3>
-                        <p class="text-gray-600">Add images to the ./images/ folder to display your projects here.</p>
-                        <p class="text-sm text-gray-500 mt-2">Create folders: ./images/kitchen/, ./images/living-room/, ./images/bedroom/, etc. with numbered images (1.jpg, 2.jpg, 3.jpg...)</p>
-                    </div>
-                `;
             }
         }
 
@@ -961,32 +952,75 @@
             const extensions = galleryConfig.extensions;
             const foundImages = [];
 
-            // Check for numbered images (1-50) in the project folder
-            for (const ext of extensions) {
-                for (let i = 1; i <= 50; i++) {
-                    const imagePath = `${galleryConfig.basePath}${folderName}/${i}.${ext}`;
-                    if (await checkImageExists(imagePath)) {
-                        foundImages.push({
-                            path: imagePath,
-                            title: `${projectType.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} Design ${i}`,
-                            description: `Professional ${projectType.replace('-', ' ')} interior design`
-                        });
-                    }
-                }
+            // Try to detect images by attempting common naming patterns
+            const namingPatterns = [
+                // Numbered patterns (most common)
+                ...Array.from({length: 100}, (_, i) => (i + 1).toString()), // 1, 2, 3, ..., 100
+                ...Array.from({length: 100}, (_, i) => `img${i + 1}`), // img1, img2, img3, ..., img100
+                ...Array.from({length: 100}, (_, i) => `image${i + 1}`), // image1, image2, image3, ..., image100
+                ...Array.from({length: 100}, (_, i) => `photo${i + 1}`), // photo1, photo2, photo3, ..., photo100
+                ...Array.from({length: 100}, (_, i) => `pic${i + 1}`), // pic1, pic2, pic3, ..., pic100
                 
-                // Also check for common image names without numbers
-                const commonNames = ['main', 'hero', 'featured', 'primary', 'design1', 'design2', 'design3'];
-                for (const name of commonNames) {
-                    const imagePath = `${galleryConfig.basePath}${folderName}/${name}.${ext}`;
+                // Zero-padded numbers
+                ...Array.from({length: 100}, (_, i) => String(i + 1).padStart(2, '0')), // 01, 02, 03, ..., 99
+                ...Array.from({length: 100}, (_, i) => String(i + 1).padStart(3, '0')), // 001, 002, 003, ..., 099
+                
+                // Common descriptive names
+                'main', 'hero', 'featured', 'primary', 'cover', 'thumbnail', 'preview',
+                'design', 'interior', 'room', 'space', 'view', 'angle1', 'angle2', 'angle3',
+                'before', 'after', 'final', 'complete', 'finished', 'overview',
+                
+                // Project-specific names
+                'kitchen-main', 'kitchen-view', 'kitchen-design', 'kitchen-final',
+                'living-main', 'living-view', 'living-design', 'living-final',
+                'bedroom-main', 'bedroom-view', 'bedroom-design', 'bedroom-final',
+                'dining-main', 'dining-view', 'dining-design', 'dining-final',
+                'bathroom-main', 'bathroom-view', 'bathroom-design', 'bathroom-final',
+                'office-main', 'office-view', 'office-design', 'office-final',
+                
+                // Alternative formats
+                'DSC_0001', 'DSC_0002', 'DSC_0003', 'DSC_0004', 'DSC_0005',
+                'IMG_0001', 'IMG_0002', 'IMG_0003', 'IMG_0004', 'IMG_0005',
+                'P1010001', 'P1010002', 'P1010003', 'P1010004', 'P1010005'
+            ];
+
+            // Check each naming pattern with each extension
+            for (const pattern of namingPatterns) {
+                for (const ext of extensions) {
+                    const imagePath = `${galleryConfig.basePath}${folderName}/${pattern}.${ext}`;
                     if (await checkImageExists(imagePath)) {
+                        // Extract a clean name for the title
+                        const cleanName = pattern.replace(/^\d+$/, `Image ${pattern}`)
+                                                .replace(/^img(\d+)$/i, `Image $1`)
+                                                .replace(/^image(\d+)$/i, `Image $1`)
+                                                .replace(/^photo(\d+)$/i, `Photo $1`)
+                                                .replace(/^pic(\d+)$/i, `Picture $1`);
+                        
                         foundImages.push({
                             path: imagePath,
-                            title: `${projectType.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${name.charAt(0).toUpperCase() + name.slice(1)}`,
-                            description: `Professional ${projectType.replace('-', ' ')} interior design`
+                            title: `${projectType.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${cleanName.charAt(0).toUpperCase() + cleanName.slice(1)}`,
+                            description: `Professional ${projectType.replace('-', ' ')} interior design`,
+                            originalName: pattern
                         });
                     }
                 }
             }
+
+            // Sort images to prioritize numbered images first, then alphabetically
+            foundImages.sort((a, b) => {
+                const aIsNumber = /^\d+$/.test(a.originalName);
+                const bIsNumber = /^\d+$/.test(b.originalName);
+                
+                if (aIsNumber && bIsNumber) {
+                    return parseInt(a.originalName) - parseInt(b.originalName);
+                } else if (aIsNumber && !bIsNumber) {
+                    return -1;
+                } else if (!aIsNumber && bIsNumber) {
+                    return 1;
+                } else {
+                    return a.originalName.localeCompare(b.originalName);
+                }
+            });
 
             return foundImages;
         }
@@ -1105,5 +1139,5 @@
         // Show content immediately
         handleScrollAnimation();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'978f9830f26c49d5',t:'MTc1Njg0MzIzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'978f9c86151749d5',t:'MTc1Njg0MzQxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
