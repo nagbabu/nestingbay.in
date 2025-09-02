@@ -563,7 +563,7 @@
                     <form id="contact-form" class="space-y-6">
                         <div>
                             <label class="block text-sm font-medium text-primary mb-2">Full Name</label>
-                            <input type="text" name="from_name" placeholder="Your full name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <input type="text" name="name" placeholder="Your full name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-primary mb-2">Phone Number</label>
@@ -571,7 +571,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-primary mb-2">Email Address</label>
-                            <input type="email" name="from_email" placeholder="your.email@example.com" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <input type="email" name="email" placeholder="your.email@example.com" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-primary mb-2">Service Required</label>
@@ -915,11 +915,16 @@
             // Hook up the form submit
             var form = document.getElementById("contact-form");
             
-            form.addEventListener("submit", function (e) {
-                e.preventDefault();
-                console.log("Form submitted");
+           form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    console.log("Submitting to EmailJS…");
 
-                // Show loading state
+    emailjs
+      .sendForm("service_lh7wuw8", "template_x24tw3i", form)
+      .then(function (res) {
+        console.log("✅ EmailJS success:", res);
+        alert("✅ Message sent successfully!");
+          // Show loading state
                 const submitBtn = form.querySelector('button[type="submit"]');
                 const originalText = submitBtn.textContent;
                 submitBtn.textContent = 'Sending...';
@@ -935,6 +940,14 @@
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
                 }, 1500);
+        form.reset();
+      })
+      .catch(function (err) {
+        console.error("❌ EmailJS error:", err);
+        alert("❌ Failed to send message. See console for details.");
+      });
+
+                
             });
         });
 
