@@ -1151,12 +1151,9 @@
                     ? galleryConfig.fallbackImages[type][index] 
                     : '';
                 
-                // Use fallback image directly since local images may not exist
-                const imageSrc = fallbackSrc || localImagePath;
-                
                 imageDiv.innerHTML = `
-                    <img src="${imageSrc}" alt="${image.title}" class="w-full h-48 object-cover" 
-                         onerror="this.style.display='none'; this.nextElementSibling.style.paddingTop='60px';">
+                    <img src="${localImagePath}" alt="${image.title}" class="w-full h-48 object-cover" 
+                         onerror="this.src='${fallbackSrc}'; if(!this.src) { this.style.display='none'; this.nextElementSibling.style.paddingTop='60px'; }">
                     <div class="p-4">
                         <h4 class="font-bold text-primary mb-2">${image.title}</h4>
                         <p class="text-gray-600 text-sm">${image.description}</p>
@@ -1221,5 +1218,5 @@
         // Show content immediately
         handleScrollAnimation();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'978f9c52153b49d5',t:'MTc1Njg0MzQwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'978f9bfa52a849d5',t:'MTc1Njg0MzM5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
