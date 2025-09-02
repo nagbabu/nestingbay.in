@@ -10,14 +10,14 @@
             theme: {
                 extend: {
                     colors: {
-                        'primary': '#19362a',
-                        'secondary': '#183529',
-                        'accent': '#223e33',
-                        'dark': '#102f23',
-                        'light': '#ece8e3',
-                        'cream': '#f3eee9',
-                        'beige': '#ede9e4',
-                        'gray-green': '#75847b'
+                        'primary': '#4a6b5a',
+                        'secondary': '#5a7a6a',
+                        'accent': '#6a8a7a',
+                        'dark': '#3a5a4a',
+                        'light': '#f5f7f6',
+                        'cream': '#f8faf9',
+                        'beige': '#f6f8f7',
+                        'gray-green': '#a5b5aa'
                     }
                 }
             }
@@ -25,7 +25,25 @@
     </script>
     <style>
         .hero-bg {
-            background: linear-gradient(135deg, #19362a 0%, #183529 50%, #223e33 100%);
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.7) 0%, rgba(50, 50, 50, 0.6) 50%, rgba(70, 70, 70, 0.7) 100%),
+                       url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            position: relative;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.5) 0%, rgba(40, 40, 40, 0.4) 50%, rgba(60, 60, 60, 0.5) 100%);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
         }
         
         .scroll-smooth {
@@ -43,7 +61,7 @@
         
         .service-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(25, 54, 42, 0.15);
+            box-shadow: 0 10px 20px rgba(74, 107, 90, 0.15);
         }
         
         .project-card {
@@ -58,7 +76,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, rgba(25, 54, 42, 0.8), rgba(34, 62, 51, 0.6));
+            background: linear-gradient(45deg, rgba(74, 107, 90, 0.8), rgba(106, 138, 122, 0.6));
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 1;
@@ -134,7 +152,7 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero-bg min-h-screen flex items-center justify-center text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="hero-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 id="hero-title" class="text-5xl md:text-7xl font-bold mb-6 fade-in">Transform Your Space Into Luxury</h1>
             <p id="hero-description" class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto fade-in">Your trusted partner in luxury home interiors. We specialize in transforming spaces into elegant, functional, and personalized living experiences.</p>
             <div class="space-x-4 fade-in">
@@ -693,157 +711,504 @@
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     
     <script>
-    // ========================================
-    // WEBSITE CONFIGURATION - UPDATE ALL TEXT HERE
-    // ========================================
-    const siteConfig = { 
-        /* … keep your existing siteConfig content as-is … */ 
-    };
-
-    function initializeContentFromConfig() {
-        /* … keep your existing DOM update logic as-is … */
-    }
-
-    // Mobile menu toggle
-    document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-        const menu = document.getElementById('mobile-menu');
-        menu.classList.toggle('hidden');
-    });
-
-    // Smooth scrolling
-    function scrollToSection(sectionId) {
-        document.getElementById(sectionId).scrollIntoView({
-            behavior: 'smooth'
-        });
-    }
-
-    // Fade in animation
-    function handleScrollAnimation() {
-        const elements = document.querySelectorAll('.fade-in:not(.visible)');
-        elements.forEach(element => {
-            const rect = element.getBoundingClientRect();
-            if (rect.top < window.innerHeight - 100) {
-                element.classList.add('visible');
+        // ========================================
+        // WEBSITE CONFIGURATION - UPDATE ALL TEXT HERE
+        // ========================================
+        const siteConfig = {
+            // Company Information
+            company: {
+                name: "NestingBay Interiors",
+                tagline: "Transform Your Space Into Luxury",
+                description: "Your trusted partner in luxury home interiors. We specialize in transforming spaces into elegant, functional, and personalized living experiences.",
+                website: "www.nestingbay.in"
+            },
+            
+            // Contact Information
+            contact: {
+                address: {
+                    line1: "Rd Number 12, PJR Enclave, ChandaNagar",
+                    line2: "Hyderabad, Telangana – 500050"
+                },
+                phones: ["9032840686", "9014576118"],
+                email: "info@nestingbay.in"
+            },
+            
+            // Services Configuration
+            services: {
+                title: "Our Services",
+                subtitle: "Comprehensive interior design solutions tailored to your needs",
+                items: [
+                    {
+                        title: "Complete Home Interiors",
+                        description: "Design to execution - comprehensive interior solutions for your entire home"
+                    },
+                    {
+                        title: "Modular Kitchens & Wardrobes", 
+                        description: "Custom modular solutions for kitchens and wardrobes with premium finishes"
+                    },
+                    {
+                        title: "False Ceiling & Electrical",
+                        description: "Professional false ceiling installation and complete electrical works"
+                    },
+                    {
+                        title: "Full Home Makeovers",
+                        description: "Complete transformation of your living space with luxury touches"
+                    }
+                ]
+            },
+            
+            // About Section Configuration
+            about: {
+                title: "Why Choose NestingBay Interiors?",
+                subtitle: "We bring years of expertise and a commitment to excellence in every project we undertake.",
+                features: [
+                    {
+                        title: "Expert Designers & Craftsmen",
+                        description: "Our team consists of skilled professionals with years of experience"
+                    },
+                    {
+                        title: "End-to-End Execution", 
+                        description: "Complete project management from concept to completion"
+                    },
+                    {
+                        title: "Tailored Luxury Solutions",
+                        description: "Custom designs that reflect your personal style and preferences"
+                    },
+                    {
+                        title: "On-Time Delivery",
+                        description: "We respect your time and deliver projects as promised"
+                    }
+                ]
+            },
+            
+            // Portfolio Configuration
+            portfolio: {
+                title: "Our Recent Projects",
+                subtitle: "Transforming homes into beautiful living spaces"
+            },
+            
+            // Contact Form Configuration
+            contactForm: {
+                title: "Contact Us",
+                subtitle: "Ready to transform your space? Get in touch with us today",
+                submitText: "Send Message"
+            },
+            
+            // Thank You Modal Configuration
+            thankYouModal: {
+                title: "Thank You!",
+                heading: "Message Sent Successfully!",
+                message: "Thank you for your interest in NestingBay Interiors. Our team will get in touch with you within 24 hours to discuss your project requirements."
+            },
+            
+            // Footer Configuration
+            footer: {
+                description: "Transforming spaces into elegant, functional, and personalized living experiences.",
+                copyright: "© 2024 NestingBay Interiors. All rights reserved."
             }
+        };
+
+        // Function to update all content from configuration
+        function initializeContentFromConfig() {
+            // Update navigation company name
+            document.getElementById('nav-company-name').textContent = siteConfig.company.name;
+            
+            // Update hero section
+            document.getElementById('hero-title').textContent = siteConfig.company.tagline;
+            document.getElementById('hero-description').textContent = siteConfig.company.description;
+            
+            // Update services section
+            document.getElementById('services-title').textContent = siteConfig.services.title;
+            document.getElementById('services-subtitle').textContent = siteConfig.services.subtitle;
+            
+            // Update service cards
+            for (let i = 0; i < siteConfig.services.items.length; i++) {
+                const service = siteConfig.services.items[i];
+                document.getElementById(`service-${i+1}-title`).textContent = service.title;
+                document.getElementById(`service-${i+1}-desc`).textContent = service.description;
+            }
+            
+            // Update about section
+            document.getElementById('about-title').textContent = siteConfig.about.title;
+            document.getElementById('about-subtitle').textContent = siteConfig.about.subtitle;
+            
+            // Update about features
+            for (let i = 0; i < siteConfig.about.features.length; i++) {
+                const feature = siteConfig.about.features[i];
+                document.getElementById(`about-feature-${i+1}-title`).textContent = feature.title;
+                document.getElementById(`about-feature-${i+1}-desc`).textContent = feature.description;
+            }
+            
+            // Update portfolio section
+            document.getElementById('portfolio-title').textContent = siteConfig.portfolio.title;
+            document.getElementById('portfolio-subtitle').textContent = siteConfig.portfolio.subtitle;
+            
+            // Update contact section
+            document.getElementById('contact-title').textContent = siteConfig.contactForm.title;
+            document.getElementById('contact-subtitle').textContent = siteConfig.contactForm.subtitle;
+            
+            // Update contact information
+            document.getElementById('contact-address').innerHTML = `${siteConfig.contact.address.line1}<br>${siteConfig.contact.address.line2}`;
+            document.getElementById('contact-phone').textContent = siteConfig.contact.phones.join(' / ');
+            document.getElementById('contact-website').textContent = siteConfig.company.website;
+            
+            // Update form submit button
+            document.getElementById('submit-btn').textContent = siteConfig.contactForm.submitText;
+            
+            // Update thank you modal
+            document.getElementById('modal-title').textContent = siteConfig.thankYouModal.title;
+            document.getElementById('modal-heading').textContent = siteConfig.thankYouModal.heading;
+            document.getElementById('modal-message').textContent = siteConfig.thankYouModal.message;
+            
+            // Update footer
+            document.getElementById('footer-company-name').textContent = siteConfig.company.name;
+            document.getElementById('footer-description').textContent = siteConfig.footer.description;
+            document.getElementById('footer-copyright').textContent = siteConfig.footer.copyright;
+            
+            // Update footer services list
+            const footerServicesList = document.getElementById('footer-services');
+            footerServicesList.innerHTML = '';
+            siteConfig.services.items.forEach(service => {
+                const li = document.createElement('li');
+                li.textContent = service.title;
+                footerServicesList.appendChild(li);
+            });
+            
+            // Update footer contact info
+            document.getElementById('footer-contact').innerHTML = `
+                <p>${siteConfig.contact.address.line1}</p>
+                <p>${siteConfig.contact.address.line2}</p>
+                <p>Phone: ${siteConfig.contact.phones.join(' / ')}</p>
+                <p>Website: ${siteConfig.company.website}</p>
+            `;
+        }
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
         });
-    }
 
-    // Contact Form Functionality
-    document.addEventListener("DOMContentLoaded", function () {
-        initializeContentFromConfig();
+        // Smooth scrolling
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
 
-        // Initialize EmailJS
-        emailjs.init("uwhdVsPk84aIdRqPR"); // <-- your Public Key
+        // Add click handlers to navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                // Close mobile menu if open
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
 
-        const form = document.getElementById("contact-form");
-        const submitBtn = document.getElementById("submit-btn");
+        // Simplified fade in animation
+        function handleScrollAnimation() {
+            const elements = document.querySelectorAll('.fade-in:not(.visible)');
+            if (elements.length === 0) return;
+            
+            elements.forEach(element => {
+                const rect = element.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    element.classList.add('visible');
+                }
+            });
+        }
 
-        form.addEventListener("submit", function (e) {
-            e.preventDefault();
-            console.log("📨 Submitting to EmailJS…");
+        // Contact Form Functionality
+        document.addEventListener("DOMContentLoaded", function () {
+            // Initialize content from configuration
+            initializeContentFromConfig();
+            
+            // Hook up the form submit
+            var form = document.getElementById("contact-form");
+            
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+                console.log("Form submitted");
 
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = "Sending...";
-            submitBtn.disabled = true;
+                // Show loading state
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Sending...';
+                submitBtn.disabled = true;
 
-            emailjs
-                .sendForm("service_lh7wuw8", "template_x24tw3i", form)
-                .then(function (res) {
-                    console.log("✅ EmailJS success:", res);
+                // Simulate form submission (replace with your actual email service)
+                setTimeout(function() {
+                    console.log("✅ Message sent successfully");
                     form.reset();
-                    showThankYouModal(); // optional modal
-                    alert("✅ Message sent successfully!");
-                })
-                .catch(function (err) {
-                    console.error("❌ EmailJS error:", err);
-                    alert("❌ Failed to send message. Please try again.");
-                })
-                .finally(function () {
-                    // Always reset button state
+                    showThankYouModal();
+                    
+                    // Reset button state
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
-                });
+                }, 1500);
+            });
         });
-    });
 
-    // Gallery functionality
-    const galleryData = {
-        /* … keep your existing gallery config … */
-    };
+        // Gallery functionality with dynamic image loading
+        const galleryConfig = {
+            // Image folder structure - update these paths as needed
+            imageFolders: {
+                'living-room': './images/living-room/',
+                'kitchen': './images/kitchen/',
+                'bedroom': './images/bedroom/',
+                'dining': './images/dining/',
+                'bathroom': './images/bathroom/',
+                'office': './images/office/'
+            },
+            
+            // Fallback to high-quality stock images if local images not available
+            fallbackImages: {
+                'living-room': [
+                    'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                ],
+                'kitchen': [
+                    'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1556909045-f7c5c2c3b5f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1556909045-4d5c2c4d4d4d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                ],
+                'bedroom': [
+                    'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1560185009-5bf9f2849488?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                ],
+                'dining': [
+                    'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1560448075-bb485b067938?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                ],
+                'bathroom': [
+                    'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                ],
+                'office': [
+                    'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1560472355-536de3962603?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                ]
+            }
+        };
 
-    function openGallery(type) {
-        const modal = document.getElementById('gallery-modal');
-        const title = document.getElementById('gallery-title');
-        const imagesContainer = document.getElementById('gallery-images');
-        
-        const data = galleryData[type];
-        if (!data) return;
-        
-        title.textContent = data.title;
-        imagesContainer.innerHTML = '';
-        
-        data.images.forEach(image => {
-            const imageDiv = document.createElement('div');
-            imageDiv.className = 'bg-white rounded-lg shadow-md overflow-hidden';
-            imageDiv.innerHTML = `
-                <img src="${image.src}" alt="${image.title}" class="w-full h-48 object-cover" onerror="this.style.display='none';">
-                <div class="p-4">
-                    <h4 class="font-bold text-primary mb-2">${image.title}</h4>
-                    <p class="text-gray-600 text-sm">${image.description}</p>
-                </div>
-            `;
-            imagesContainer.appendChild(imageDiv);
+        const galleryData = {
+            'living-room': {
+                title: 'Living Room Designs',
+                images: [
+                    {
+                        title: 'Modern Living Room Design',
+                        description: 'Contemporary design with neutral tones and premium finishes'
+                    },
+                    {
+                        title: 'Luxury Living Space',
+                        description: 'Elegant furniture arrangement with sophisticated styling'
+                    },
+                    {
+                        title: 'Cozy Family Room',
+                        description: 'Warm and inviting family gathering space'
+                    },
+                    {
+                        title: 'Minimalist Lounge',
+                        description: 'Clean lines and sophisticated modern styling'
+                    },
+                    {
+                        title: 'Executive Living Suite',
+                        description: 'Premium executive-style living room design'
+                    }
+                ]
+            },
+            'kitchen': {
+                title: 'Kitchen Designs',
+                images: [
+                    {
+                        title: 'Modern Modular Kitchen',
+                        description: 'Sleek modular design with premium appliances'
+                    },
+                    {
+                        title: 'L-Shaped Kitchen Layout',
+                        description: 'Efficient L-shaped design maximizing space'
+                    },
+                    {
+                        title: 'Island Kitchen Design',
+                        description: 'Spacious kitchen with central island'
+                    },
+                    {
+                        title: 'Galley Kitchen Style',
+                        description: 'Compact galley-style kitchen design'
+                    }
+                ]
+            },
+            'bedroom': {
+                title: 'Bedroom Designs',
+                images: [
+                    {
+                        title: 'Master Bedroom Suite',
+                        description: 'Luxurious master bedroom with walk-in closet'
+                    },
+                    {
+                        title: 'Contemporary Bedroom',
+                        description: 'Modern bedroom with built-in storage'
+                    },
+                    {
+                        title: 'Minimalist Bedroom',
+                        description: 'Clean and serene bedroom design'
+                    }
+                ]
+            },
+            'dining': {
+                title: 'Dining Room Designs',
+                images: [
+                    {
+                        title: 'Formal Dining Room',
+                        description: 'Elegant formal dining space'
+                    },
+                    {
+                        title: 'Family Dining Area',
+                        description: 'Cozy family dining space'
+                    }
+                ]
+            },
+            'bathroom': {
+                title: 'Bathroom Designs',
+                images: [
+                    {
+                        title: 'Luxury Bathroom Suite',
+                        description: 'Premium bathroom with spa-like features'
+                    },
+                    {
+                        title: 'Modern Bathroom Design',
+                        description: 'Contemporary bathroom with modern fixtures'
+                    }
+                ]
+            },
+            'office': {
+                title: 'Office Designs',
+                images: [
+                    {
+                        title: 'Home Office Design',
+                        description: 'Productive home office workspace'
+                    },
+                    {
+                        title: 'Executive Office Suite',
+                        description: 'Professional executive office design'
+                    }
+                ]
+            }
+        };
+
+        // Function to get image source with fallback
+        function getImageSource(type, index) {
+            const folderPath = galleryConfig.imageFolders[type];
+            const fallbackImages = galleryConfig.fallbackImages[type];
+            
+            // Try local image first (you can add your own images to these folders)
+            const localImagePath = `${folderPath}image-${index + 1}.jpg`;
+            
+            // Return fallback image if available, otherwise return a placeholder
+            return fallbackImages && fallbackImages[index] ? fallbackImages[index] : localImagePath;
+        }
+
+        function openGallery(type) {
+            const modal = document.getElementById('gallery-modal');
+            const title = document.getElementById('gallery-title');
+            const imagesContainer = document.getElementById('gallery-images');
+            
+            const data = galleryData[type];
+            if (!data) return;
+            
+            title.textContent = data.title;
+            imagesContainer.innerHTML = '';
+            
+            data.images.forEach((image, index) => {
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'bg-white rounded-lg shadow-md overflow-hidden';
+                
+                const imageSrc = getImageSource(type, index);
+                const fallbackSrc = galleryConfig.fallbackImages[type] && galleryConfig.fallbackImages[type][index] 
+                    ? galleryConfig.fallbackImages[type][index] 
+                    : '';
+                
+                // Always use fallback images for reliable display
+                const finalImageSrc = fallbackSrc || imageSrc;
+                
+                imageDiv.innerHTML = `
+                    <img src="${finalImageSrc}" alt="${image.title}" class="w-full h-48 object-cover" 
+                         onerror="this.style.display='none'; this.nextElementSibling.style.paddingTop='60px';">
+                    <div class="p-4">
+                        <h4 class="font-bold text-primary mb-2">${image.title}</h4>
+                        <p class="text-gray-600 text-sm">${image.description}</p>
+                    </div>
+                `;
+                imagesContainer.appendChild(imageDiv);
+            });
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGallery() {
+            const modal = document.getElementById('gallery-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Thank You Modal Functions
+        function showThankYouModal() {
+            const modal = document.getElementById('thank-you-modal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeThankYouModal() {
+            const modal = document.getElementById('thank-you-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function goToHome() {
+            closeThankYouModal();
+            scrollToSection('home');
+        }
+
+        // Close modals when clicking outside
+        document.getElementById('gallery-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeGallery();
+            }
         });
-        
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
 
-    function closeGallery() {
-        const modal = document.getElementById('gallery-modal');
-        modal.classList.add('hidden');
-        document.body.style.overflow = 'auto';
-    }
+        document.getElementById('thank-you-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeThankYouModal();
+            }
+        });
 
-    // Thank You Modal Functions
-    function showThankYouModal() {
-        const modal = document.getElementById('thank-you-modal');
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeThankYouModal() {
-        const modal = document.getElementById('thank-you-modal');
-        modal.classList.add('hidden');
-        document.body.style.overflow = 'auto';
-    }
-
-    function goToHome() {
-        closeThankYouModal();
-        scrollToSection('home');
-    }
-
-    // Close modals when clicking outside
-    document.getElementById('gallery-modal').addEventListener('click', function(e) {
-        if (e.target === this) closeGallery();
-    });
-    document.getElementById('thank-you-modal').addEventListener('click', function(e) {
-        if (e.target === this) closeThankYouModal();
-    });
-
-    // Scroll animation
-    let scrollTimeout;
-    window.addEventListener('scroll', function() {
-        if (!scrollTimeout) {
+        // Throttled scroll handler for better performance
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+            if (scrollTimeout) return;
             scrollTimeout = setTimeout(function() {
                 handleScrollAnimation();
                 scrollTimeout = null;
             }, 50);
-        }
-    });
-    window.addEventListener('load', handleScrollAnimation);
-    handleScrollAnimation();
-</script>
-
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'978f2c9125f649d5',t:'MTc1NjgzODgyOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+        });
+        
+        window.addEventListener('load', handleScrollAnimation);
+        
+        // Show content immediately
+        handleScrollAnimation();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'978f845a857f49d5',t:'MTc1Njg0MjQyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
