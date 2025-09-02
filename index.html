@@ -693,467 +693,157 @@
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     
     <script>
-        // ========================================
-        // WEBSITE CONFIGURATION - UPDATE ALL TEXT HERE
-        // ========================================
-        const siteConfig = {
-            // Company Information
-            company: {
-                name: "NestingBay Interiors",
-                tagline: "Transform Your Space Into Luxury",
-                description: "Your trusted partner in luxury home interiors. We specialize in transforming spaces into elegant, functional, and personalized living experiences.",
-                website: "www.nestingbay.in"
-            },
-            
-            // Contact Information
-            contact: {
-                address: {
-                    line1: "Rd Number 12, PJR Enclave, ChandaNagar",
-                    line2: "Hyderabad, Telangana – 500050"
-                },
-                phones: ["9032840686", "9014576118"],
-                email: "info@nestingbay.in"
-            },
-            
-            // Services Configuration
-            services: {
-                title: "Our Services",
-                subtitle: "Comprehensive interior design solutions tailored to your needs",
-                items: [
-                    {
-                        title: "Complete Home Interiors",
-                        description: "Design to execution - comprehensive interior solutions for your entire home"
-                    },
-                    {
-                        title: "Modular Kitchens & Wardrobes", 
-                        description: "Custom modular solutions for kitchens and wardrobes with premium finishes"
-                    },
-                    {
-                        title: "False Ceiling & Electrical",
-                        description: "Professional false ceiling installation and complete electrical works"
-                    },
-                    {
-                        title: "Full Home Makeovers",
-                        description: "Complete transformation of your living space with luxury touches"
-                    }
-                ]
-            },
-            
-            // About Section Configuration
-            about: {
-                title: "Why Choose NestingBay Interiors?",
-                subtitle: "We bring years of expertise and a commitment to excellence in every project we undertake.",
-                features: [
-                    {
-                        title: "Expert Designers & Craftsmen",
-                        description: "Our team consists of skilled professionals with years of experience"
-                    },
-                    {
-                        title: "End-to-End Execution", 
-                        description: "Complete project management from concept to completion"
-                    },
-                    {
-                        title: "Tailored Luxury Solutions",
-                        description: "Custom designs that reflect your personal style and preferences"
-                    },
-                    {
-                        title: "On-Time Delivery",
-                        description: "We respect your time and deliver projects as promised"
-                    }
-                ]
-            },
-            
-            // Portfolio Configuration
-            portfolio: {
-                title: "Our Recent Projects",
-                subtitle: "Transforming homes into beautiful living spaces"
-            },
-            
-            // Contact Form Configuration
-            contactForm: {
-                title: "Contact Us",
-                subtitle: "Ready to transform your space? Get in touch with us today",
-                submitText: "Send Message"
-            },
-            
-            // Thank You Modal Configuration
-            thankYouModal: {
-                title: "Thank You!",
-                heading: "Message Sent Successfully!",
-                message: "Thank you for your interest in NestingBay Interiors. Our team will get in touch with you within 24 hours to discuss your project requirements."
-            },
-            
-            // Footer Configuration
-            footer: {
-                description: "Transforming spaces into elegant, functional, and personalized living experiences.",
-                copyright: "© 2024 NestingBay Interiors. All rights reserved."
-            }
-        };
+    // ========================================
+    // WEBSITE CONFIGURATION - UPDATE ALL TEXT HERE
+    // ========================================
+    const siteConfig = { 
+        /* … keep your existing siteConfig content as-is … */ 
+    };
 
-        // Function to update all content from configuration
-        function initializeContentFromConfig() {
-            // Update navigation company name
-            document.getElementById('nav-company-name').textContent = siteConfig.company.name;
-            
-            // Update hero section
-            document.getElementById('hero-title').textContent = siteConfig.company.tagline;
-            document.getElementById('hero-description').textContent = siteConfig.company.description;
-            
-            // Update services section
-            document.getElementById('services-title').textContent = siteConfig.services.title;
-            document.getElementById('services-subtitle').textContent = siteConfig.services.subtitle;
-            
-            // Update service cards
-            for (let i = 0; i < siteConfig.services.items.length; i++) {
-                const service = siteConfig.services.items[i];
-                document.getElementById(`service-${i+1}-title`).textContent = service.title;
-                document.getElementById(`service-${i+1}-desc`).textContent = service.description;
-            }
-            
-            // Update about section
-            document.getElementById('about-title').textContent = siteConfig.about.title;
-            document.getElementById('about-subtitle').textContent = siteConfig.about.subtitle;
-            
-            // Update about features
-            for (let i = 0; i < siteConfig.about.features.length; i++) {
-                const feature = siteConfig.about.features[i];
-                document.getElementById(`about-feature-${i+1}-title`).textContent = feature.title;
-                document.getElementById(`about-feature-${i+1}-desc`).textContent = feature.description;
-            }
-            
-            // Update portfolio section
-            document.getElementById('portfolio-title').textContent = siteConfig.portfolio.title;
-            document.getElementById('portfolio-subtitle').textContent = siteConfig.portfolio.subtitle;
-            
-            // Update contact section
-            document.getElementById('contact-title').textContent = siteConfig.contactForm.title;
-            document.getElementById('contact-subtitle').textContent = siteConfig.contactForm.subtitle;
-            
-            // Update contact information
-            document.getElementById('contact-address').innerHTML = `${siteConfig.contact.address.line1}<br>${siteConfig.contact.address.line2}`;
-            document.getElementById('contact-phone').textContent = siteConfig.contact.phones.join(' / ');
-            document.getElementById('contact-website').textContent = siteConfig.company.website;
-            
-            // Update form submit button
-            document.getElementById('submit-btn').textContent = siteConfig.contactForm.submitText;
-            
-            // Update thank you modal
-            document.getElementById('modal-title').textContent = siteConfig.thankYouModal.title;
-            document.getElementById('modal-heading').textContent = siteConfig.thankYouModal.heading;
-            document.getElementById('modal-message').textContent = siteConfig.thankYouModal.message;
-            
-            // Update footer
-            document.getElementById('footer-company-name').textContent = siteConfig.company.name;
-            document.getElementById('footer-description').textContent = siteConfig.footer.description;
-            document.getElementById('footer-copyright').textContent = siteConfig.footer.copyright;
-            
-            // Update footer services list
-            const footerServicesList = document.getElementById('footer-services');
-            footerServicesList.innerHTML = '';
-            siteConfig.services.items.forEach(service => {
-                const li = document.createElement('li');
-                li.textContent = service.title;
-                footerServicesList.appendChild(li);
-            });
-            
-            // Update footer contact info
-            document.getElementById('footer-contact').innerHTML = `
-                <p>${siteConfig.contact.address.line1}</p>
-                <p>${siteConfig.contact.address.line2}</p>
-                <p>Phone: ${siteConfig.contact.phones.join(' / ')}</p>
-                <p>Website: ${siteConfig.company.website}</p>
-            `;
-        }
+    function initializeContentFromConfig() {
+        /* … keep your existing DOM update logic as-is … */
+    }
 
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+    });
+
+    // Smooth scrolling
+    function scrollToSection(sectionId) {
+        document.getElementById(sectionId).scrollIntoView({
+            behavior: 'smooth'
         });
+    }
 
-        // Smooth scrolling
-        function scrollToSection(sectionId) {
-            document.getElementById(sectionId).scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-
-        // Add click handlers to navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-                // Close mobile menu if open
-                document.getElementById('mobile-menu').classList.add('hidden');
-            });
+    // Fade in animation
+    function handleScrollAnimation() {
+        const elements = document.querySelectorAll('.fade-in:not(.visible)');
+        elements.forEach(element => {
+            const rect = element.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 100) {
+                element.classList.add('visible');
+            }
         });
+    }
 
-        // Simplified fade in animation
-        function handleScrollAnimation() {
-            const elements = document.querySelectorAll('.fade-in:not(.visible)');
-            if (elements.length === 0) return;
-            
-            elements.forEach(element => {
-                const rect = element.getBoundingClientRect();
-                if (rect.top < window.innerHeight - 100) {
-                    element.classList.add('visible');
-                }
-            });
-        }
+    // Contact Form Functionality
+    document.addEventListener("DOMContentLoaded", function () {
+        initializeContentFromConfig();
 
-        // Contact Form Functionality
-        document.addEventListener("DOMContentLoaded", function () {
-            // Initialize content from configuration
-            initializeContentFromConfig();
-            
-            // Hook up the form submit
-            var form = document.getElementById("contact-form");
-            
-           form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    console.log("Submitting to EmailJS…");
+        // Initialize EmailJS
+        emailjs.init("uwhdVsPk84aIdRqPR"); // <-- your Public Key
 
-    emailjs
-      .sendForm("service_lh7wuw8", "template_x24tw3i", form)
-      .then(function (res) {
-        console.log("✅ EmailJS success:", res);
-        alert("✅ Message sent successfully!");
-          // Show loading state
-                const submitBtn = form.querySelector('button[type="submit"]');
-                const originalText = submitBtn.textContent;
-                submitBtn.textContent = 'Sending...';
-                submitBtn.disabled = true;
+        const form = document.getElementById("contact-form");
+        const submitBtn = document.getElementById("submit-btn");
 
-                // Simulate form submission (replace with your actual email service)
-                setTimeout(function() {
-                    console.log("✅ Message sent successfully");
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            console.log("📨 Submitting to EmailJS…");
+
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = "Sending...";
+            submitBtn.disabled = true;
+
+            emailjs
+                .sendForm("service_lh7wuw8", "template_x24tw3i", form)
+                .then(function (res) {
+                    console.log("✅ EmailJS success:", res);
                     form.reset();
-                    showThankYouModal();
-                    
-                    // Reset button state
+                    showThankYouModal(); // optional modal
+                    alert("✅ Message sent successfully!");
+                })
+                .catch(function (err) {
+                    console.error("❌ EmailJS error:", err);
+                    alert("❌ Failed to send message. Please try again.");
+                })
+                .finally(function () {
+                    // Always reset button state
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
-                }, 1500);
-        form.reset();
-      })
-      .catch(function (err) {
-        console.error("❌ EmailJS error:", err);
-        alert("❌ Failed to send message. See console for details.");
-      });
-
-                
-            });
+                });
         });
+    });
 
-        // Gallery functionality with organized folder structure
-        const galleryData = {
-            'living-room': {
-                title: 'Living Room Designs',
-                images: [
-                    {
-                        src: './images/living-room/modern-living-room-1.jpg',
-                        title: 'Modern Living Room - Sample 1',
-                        description: 'Contemporary design with neutral tones'
-                    },
-                    {
-                        src: './images/living-room/luxury-living-space-2.jpg',
-                        title: 'Luxury Living Space - Sample 2',
-                        description: 'Elegant furniture arrangement with premium finishes'
-                    },
-                    {
-                        src: './images/living-room/cozy-family-room-3.jpg',
-                        title: 'Cozy Family Room - Sample 3',
-                        description: 'Warm and inviting family gathering space'
-                    },
-                    {
-                        src: './images/living-room/minimalist-lounge-4.jpg',
-                        title: 'Minimalist Lounge - Sample 4',
-                        description: 'Clean lines and sophisticated styling'
-                    },
-                    {
-                        src: './images/living-room/executive-living-suite-5.jpg',
-                        title: 'Executive Living Suite - Sample 5',
-                        description: 'Premium executive-style living room design'
-                    }
-                ]
-            },
-            'kitchen': {
-                title: 'Kitchen Designs',
-                images: [
-                    {
-                        src: './images/kitchen/modern-modular-kitchen-1.jpg',
-                        title: 'Modern Modular Kitchen - Sample 1',
-                        description: 'Sleek modular design with premium appliances'
-                    },
-                    {
-                        src: './images/kitchen/l-shaped-kitchen-2.jpg',
-                        title: 'L-Shaped Kitchen Layout - Sample 2',
-                        description: 'Efficient L-shaped design maximizing space'
-                    },
-                    {
-                        src: './images/kitchen/island-kitchen-3.jpg',
-                        title: 'Island Kitchen Design - Sample 3',
-                        description: 'Spacious kitchen with central island'
-                    },
-                    {
-                        src: './images/kitchen/galley-kitchen-4.jpg',
-                        title: 'Galley Kitchen Style - Sample 4',
-                        description: 'Compact galley-style kitchen design'
-                    }
-                ]
-            },
-            'bedroom': {
-                title: 'Bedroom Designs',
-                images: [
-                    {
-                        src: './images/bedroom/master-bedroom-suite-1.jpg',
-                        title: 'Master Bedroom Suite - Sample 1',
-                        description: 'Luxurious master bedroom with walk-in closet'
-                    },
-                    {
-                        src: './images/bedroom/contemporary-bedroom-2.jpg',
-                        title: 'Contemporary Bedroom - Sample 2',
-                        description: 'Modern bedroom with built-in storage'
-                    },
-                    {
-                        src: './images/bedroom/minimalist-bedroom-3.jpg',
-                        title: 'Minimalist Bedroom - Sample 3',
-                        description: 'Clean and serene bedroom design'
-                    }
-                ]
-            },
-            'dining': {
-                title: 'Dining Room Designs',
-                images: [
-                    {
-                        src: './images/dining/formal-dining-room-1.jpg',
-                        title: 'Formal Dining Room - Sample 1',
-                        description: 'Elegant formal dining space'
-                    },
-                    {
-                        src: './images/dining/family-dining-area-2.jpg',
-                        title: 'Family Dining Area - Sample 2',
-                        description: 'Cozy family dining space'
-                    }
-                ]
-            },
-            'bathroom': {
-                title: 'Bathroom Designs',
-                images: [
-                    {
-                        src: './images/bathroom/luxury-bathroom-suite-1.jpg',
-                        title: 'Luxury Bathroom Suite - Sample 1',
-                        description: 'Premium bathroom with spa-like features'
-                    },
-                    {
-                        src: './images/bathroom/modern-bathroom-2.jpg',
-                        title: 'Modern Bathroom Design - Sample 2',
-                        description: 'Contemporary bathroom with modern fixtures'
-                    }
-                ]
-            },
-            'office': {
-                title: 'Office Designs',
-                images: [
-                    {
-                        src: './images/office/home-office-1.jpg',
-                        title: 'Home Office Design - Sample 1',
-                        description: 'Productive home office workspace'
-                    },
-                    {
-                        src: './images/office/executive-office-2.jpg',
-                        title: 'Executive Office Suite - Sample 2',
-                        description: 'Professional executive office design'
-                    }
-                ]
-            }
-        };
+    // Gallery functionality
+    const galleryData = {
+        /* … keep your existing gallery config … */
+    };
 
-        function openGallery(type) {
-            const modal = document.getElementById('gallery-modal');
-            const title = document.getElementById('gallery-title');
-            const imagesContainer = document.getElementById('gallery-images');
-            
-            const data = galleryData[type];
-            if (!data) return;
-            
-            title.textContent = data.title;
-            imagesContainer.innerHTML = '';
-            
-            data.images.forEach(image => {
-                const imageDiv = document.createElement('div');
-                imageDiv.className = 'bg-white rounded-lg shadow-md overflow-hidden';
-                imageDiv.innerHTML = `
-                    <img src="${image.src}" alt="${image.title}" class="w-full h-48 object-cover" onerror="this.src=''; this.alt='Image not available'; this.style.display='none';">
-                    <div class="p-4">
-                        <h4 class="font-bold text-primary mb-2">${image.title}</h4>
-                        <p class="text-gray-600 text-sm">${image.description}</p>
-                    </div>
-                `;
-                imagesContainer.appendChild(imageDiv);
-            });
-            
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeGallery() {
-            const modal = document.getElementById('gallery-modal');
-            modal.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        // Thank You Modal Functions
-        function showThankYouModal() {
-            const modal = document.getElementById('thank-you-modal');
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeThankYouModal() {
-            const modal = document.getElementById('thank-you-modal');
-            modal.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        function goToHome() {
-            closeThankYouModal();
-            scrollToSection('home');
-        }
-
-        // Close modals when clicking outside
-        document.getElementById('gallery-modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeGallery();
-            }
+    function openGallery(type) {
+        const modal = document.getElementById('gallery-modal');
+        const title = document.getElementById('gallery-title');
+        const imagesContainer = document.getElementById('gallery-images');
+        
+        const data = galleryData[type];
+        if (!data) return;
+        
+        title.textContent = data.title;
+        imagesContainer.innerHTML = '';
+        
+        data.images.forEach(image => {
+            const imageDiv = document.createElement('div');
+            imageDiv.className = 'bg-white rounded-lg shadow-md overflow-hidden';
+            imageDiv.innerHTML = `
+                <img src="${image.src}" alt="${image.title}" class="w-full h-48 object-cover" onerror="this.style.display='none';">
+                <div class="p-4">
+                    <h4 class="font-bold text-primary mb-2">${image.title}</h4>
+                    <p class="text-gray-600 text-sm">${image.description}</p>
+                </div>
+            `;
+            imagesContainer.appendChild(imageDiv);
         });
+        
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
 
-        document.getElementById('thank-you-modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeThankYouModal();
-            }
-        });
+    function closeGallery() {
+        const modal = document.getElementById('gallery-modal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
 
-        // Throttled scroll handler for better performance
-        let scrollTimeout;
-        window.addEventListener('scroll', function() {
-            if (scrollTimeout) return;
+    // Thank You Modal Functions
+    function showThankYouModal() {
+        const modal = document.getElementById('thank-you-modal');
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeThankYouModal() {
+        const modal = document.getElementById('thank-you-modal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    function goToHome() {
+        closeThankYouModal();
+        scrollToSection('home');
+    }
+
+    // Close modals when clicking outside
+    document.getElementById('gallery-modal').addEventListener('click', function(e) {
+        if (e.target === this) closeGallery();
+    });
+    document.getElementById('thank-you-modal').addEventListener('click', function(e) {
+        if (e.target === this) closeThankYouModal();
+    });
+
+    // Scroll animation
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+        if (!scrollTimeout) {
             scrollTimeout = setTimeout(function() {
                 handleScrollAnimation();
                 scrollTimeout = null;
             }, 50);
-        });
-        
-        window.addEventListener('load', handleScrollAnimation);
-        
-        // Show content immediately
-        handleScrollAnimation();
-    </script>
+        }
+    });
+    window.addEventListener('load', handleScrollAnimation);
+    handleScrollAnimation();
+</script>
+
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'978f2c9125f649d5',t:'MTc1NjgzODgyOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
