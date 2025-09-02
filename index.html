@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NestingBay Interiors - Transform Your Space Into Luxury</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .hero-bg {
+      background: url("./images/hero/living-room.jpg") center/cover no-repeat;
+      position: relative;
+    }
+    .hero-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(25, 54, 42, 0.6); /* overlay */
+    }
+    .hero-bg > div {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body class="scroll-smooth">
+  <!-- Hero Section -->
+  <section id="home" class="hero-bg min-h-screen flex items-center justify-center text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-5xl md:text-7xl font-bold mb-6">Transform Your Space Into Luxury</h1>
+      <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Your trusted partner in luxury home interiors. We specialize in transforming spaces into elegant, functional, and personalized living experiences.</p>
+      <div class="space-x-4">
+        <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-cream transition-colors">Start Your Project</button>
+        <button onclick="document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors">View Portfolio</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-4xl font-bold text-primary mb-8 text-center">Contact Us</h2>
+      <form id="contact-form" class="space-y-6">
+        <input type="text" name="from_name" placeholder="Full Name" required class="w-full px-4 py-3 border rounded-lg">
+        <input type="email" name="from_email" placeholder="Email Address" required class="w-full px-4 py-3 border rounded-lg">
+        <textarea name="message" rows="4" placeholder="Project Details" required class="w-full px-4 py-3 border rounded-lg"></textarea>
+        <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-semibold">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    emailjs.init({ publicKey: "uwhdVsPk84aIdRqPR" });
+    const form = document.getElementById("contact-form");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const btn = form.querySelector("button[type='submit']");
+      const original = btn.textContent;
+      btn.textContent = "Sending...";
+      btn.disabled = true;
+      emailjs.sendForm("your_service_id", "your_template_id", form)
+        .then(() => {
+          alert("Message sent successfully!");
+          form.reset();
+          btn.textContent = original;
+          btn.disabled = false;
+        })
+        .catch((err) => {
+          console.error("Email send failed:", err);
+          alert("Something went wrong. Please try again.");
+          btn.textContent = original;
+          btn.disabled = false;
+        });
+    });
+  });
+  </script>
+</body>
+</html>
