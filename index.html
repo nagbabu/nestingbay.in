@@ -1001,7 +1001,8 @@
                     phone: formData.get('phone'),
                     service: formData.get('service'),
                     message: formData.get('message'),
-                    to_email: siteConfig.contact.email
+                    to_email: siteConfig.contact.email,
+                    year: new Date().getFullYear()
                 };
 
                 console.log("📋 Form data:", templateParams);
