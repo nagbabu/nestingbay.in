@@ -32,7 +32,7 @@
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex justify-between items-center h-16">
         <div class="flex items-center">
-          <img src="nestingbay.in/images/nb_logo.png" class="h-10 w-10 mr-3" alt="Logo">
+          <img src="images/nb_logo.png" class="h-10 w-10 mr-3" alt="Logo">
           <span class="text-2xl font-bold text-primary">NestingBay Interiors</span>
         </div>
         <div class="hidden md:block">
@@ -48,7 +48,7 @@
   <!-- Hero Section -->
   <section id="home" class="min-h-screen flex items-center justify-center text-white gold-gradient-bg">
     <div class="hero-content text-center">
-      <img src="nestingbay.in/images/hero/hero.jpg" class="mx-auto mb-6 rounded-xl shadow-lg" alt="Hero">
+      <img src="images/hero/hero.jpg" class="mx-auto mb-6 rounded-xl shadow-lg" alt="Hero">
       <h1 class="text-5xl font-bold mb-6 text-primary">Transform Your Space Into Luxury</h1>
       <p class="text-xl mb-8 max-w-3xl mx-auto text-primary">Your trusted partner in luxury home interiors. We specialize in transforming spaces into elegant, functional, and personalized living experiences.</p>
     </div>
@@ -104,7 +104,7 @@
   <footer class="bg-primary text-white py-12">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex items-center">
-        <img src="nestingbay.in/images/nb_logo.png" class="h-8 w-8 mr-3" alt="Logo">
+        <img src="images/nb_logo.png" class="h-8 w-8 mr-3" alt="Logo">
         <span class="text-xl font-bold">NestingBay Interiors</span>
       </div>
       <p class="text-light mt-2">Transforming spaces into elegant, functional, and personalized living experiences.</p>
@@ -116,7 +116,7 @@
     // This is pseudo-code. You will need server-side API to give all image filenames for a folder type.
     async function fetchImageList(type) {
       // Example expected API endpoint: /images/<type>/list.json
-      const res = await fetch(`nestingbay.in/images/${type}/list.json`);
+      const res = await fetch(`images/${type}/list.json`);
       const data = await res.json();
       return data.images;
     }
@@ -131,7 +131,7 @@
         const div = document.createElement('div');
         div.className = "bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer";
         div.innerHTML = `
-          <img src="nestingbay.in/images/${type}/${images[0]}" class="w-full h-48 object-cover" alt="">
+          <img src="images/${type}/${images[0]}" class="w-full h-48 object-cover" alt="">
           <div class="p-4">
             <h3 class="text-xl font-bold text-primary mb-2 capitalize">${type.replace('-', ' ')}</h3>
           </div>
