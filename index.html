@@ -1,61 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nesting Bay</title>
+  <meta charset="UTF-8">
+  <title>NestingBay Interiors - Transform Your Space Into Luxury</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CSS - Custom Colors Based on Logo -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0f3b2e',
+            accent: '#c9a449',
+            light: '#f9f9f7',
+          },
+        }
+      }
+    }
+  </script>
   <style>
-    body { background-color: #f9f9f7; }
-    .brand-green { color: #0f3b2e; }
-    .brand-bg-green { background-color: #0f3b2e; }
-    .brand-gold { color: #c9a449; }
-    .brand-bg-gold { background-color: #c9a449; }
+    .gold-gradient-bg {
+      background: linear-gradient(90deg,#c9a449,#f9f9f7);
+    }
+    body { background: #f9f9f7; }
   </style>
 </head>
-<body class="font-sans antialiased">
-
-  <!-- Navbar -->
-  <nav class="brand-bg-green text-white p-4 flex items-center justify-between">
-    <div class="flex items-center space-x-3">
-      <img src="nestingbay.in/images/nb_logo.png" alt="Nesting Bay Logo" class="h-10">
-      <span class="text-xl font-bold brand-gold">NESTING BAY</span>
+<body class="scroll-smooth">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center">
+          <img src="nestingbay.in/images/nb_logo.png" class="h-10 w-10 mr-3" alt="Logo">
+          <span class="text-2xl font-bold text-primary">NestingBay Interiors</span>
+        </div>
+        <div class="hidden md:block">
+          <!-- Navigation Links -->
+        </div>
+        <div class="md:hidden">
+          <!-- Mobile Navigation Button -->
+        </div>
+      </div>
     </div>
-    <ul class="flex space-x-6 text-sm">
-      <li><a href="#hero" class="hover:text-[#c9a449]">Hero</a></li>
-      <li><a href="#kitchen" class="hover:text-[#c9a449]">Kitchen</a></li>
-      <li><a href="#living-room" class="hover:text-[#c9a449]">Living Room</a></li>
-    </ul>
   </nav>
 
   <!-- Hero Section -->
-  <section id="hero" class="p-8 text-center">
-    <h2 class="text-3xl font-bold brand-green mb-6">Hero Showcase</h2>
-    <div id="hero-preview" class="cursor-pointer" onclick="openGallery('hero')"></div>
-  </section>
-
-  <!-- Kitchen Section -->
-  <section id="kitchen" class="p-8 text-center">
-    <h2 class="text-3xl font-bold brand-green mb-6">Kitchen Designs</h2>
-    <div id="kitchen-preview" class="cursor-pointer" onclick="openGallery('kitchen')"></div>
-  </section>
-
-  <!-- Living Room Section -->
-  <section id="living-room" class="p-8 text-center">
-    <h2 class="text-3xl font-bold brand-green mb-6">Living Room Designs</h2>
-    <div id="living-room-preview" class="cursor-pointer" onclick="openGallery('living-room')"></div>
-  </section>
-
-  <!-- Gallery Modal -->
-  <div id="gallery-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg shadow-lg max-w-4xl w-full p-6 relative">
-      <button onclick="closeGallery()" class="absolute top-3 right-3 text-gray-600 hover:text-black text-2xl">&times;</button>
-      <h3 id="gallery-title" class="text-xl font-bold mb-4 brand-green"></h3>
-      <div id="gallery-images" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+  <section id="home" class="min-h-screen flex items-center justify-center text-white gold-gradient-bg">
+    <div class="hero-content text-center">
+      <img src="nestingbay.in/images/hero/hero.jpg" class="mx-auto mb-6 rounded-xl shadow-lg" alt="Hero">
+      <h1 class="text-5xl font-bold mb-6 text-primary">Transform Your Space Into Luxury</h1>
+      <p class="text-xl mb-8 max-w-3xl mx-auto text-primary">Your trusted partner in luxury home interiors. We specialize in transforming spaces into elegant, functional, and personalized living experiences.</p>
     </div>
-  </div>
+  </section>
 
-  <!-- Scripts -->
-  <script src="js/gallery.js"></script>
+  <!-- Dynamic Gallery Section Example -->
+  <section id="portfolio" class="py-20 bg-light">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-4xl font-bold text-primary mb-8 fade-in">Our Recent Projects</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="gallery-preview">
+        <!-- JS will inject galleries here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-4xl font-bold text-primary mb-4">Contact Us</h2>
+      <form id="contact-form" class="space-y-6">
+        <div>
+          <label class="block text-sm font-medium text-primary mb-2">Name</label>
+          <input type="text" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-primary mb-2">Email</label>
+          <input type="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-primary mb-2">Phone</label>
+          <input type="tel" name="phone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-primary mb-2">Service Required</label>
+          <select name="service" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent">
+            <option value="">Select a service</option>
+            <option value="Complete Home Interiors">Complete Home Interiors</option>
+            <option value="Modular Kitchens & Wardrobes">Modular Kitchens & Wardrobes</option>
+            <option value="False Ceiling & Electrical">False Ceiling & Electrical</option>
+            <option value="Full Home Makeovers">Full Home Makeovers</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-primary mb-2">Project Details</label>
+          <textarea name="message" rows="4" maxlength="500" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-accent transition-colors">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer Example with Logo -->
+  <footer class="bg-primary text-white py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex items-center">
+        <img src="nestingbay.in/images/nb_logo.png" class="h-8 w-8 mr-3" alt="Logo">
+        <span class="text-xl font-bold">NestingBay Interiors</span>
+      </div>
+      <p class="text-light mt-2">Transforming spaces into elegant, functional, and personalized living experiences.</p>
+    </div>
+  </footer>
+
+  <!-- JS for Dynamic Gallery Loading Example -->
+  <script>
+    // This is pseudo-code. You will need server-side API to give all image filenames for a folder type.
+    async function fetchImageList(type) {
+      // Example expected API endpoint: /images/<type>/list.json
+      const res = await fetch(`nestingbay.in/images/${type}/list.json`);
+      const data = await res.json();
+      return data.images;
+    }
+
+    const galleryTypes = ['kitchen', 'living-room', 'bedroom', 'dining', 'bathroom', 'office'];
+    async function renderGalleries() {
+      const preview = document.getElementById('gallery-preview');
+      for (const type of galleryTypes) {
+        const images = await fetchImageList(type);
+        if (images.length === 0) continue;
+        // Show first image as gallery card
+        const div = document.createElement('div');
+        div.className = "bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer";
+        div.innerHTML = `
+          <img src="nestingbay.in/images/${type}/${images[0]}" class="w-full h-48 object-cover" alt="">
+          <div class="p-4">
+            <h3 class="text-xl font-bold text-primary mb-2 capitalize">${type.replace('-', ' ')}</h3>
+          </div>
+        `;
+        div.onclick = () => showModal(type, images);
+        preview.appendChild(div);
+      }
+    }
+
+    // Modal function to show all gallery images (pseudo-code)
+    function showModal(type, images) {
+      // You need to implement modal code to display all images from images array.
+      alert('Display modal with images for type: ' + type);
+    }
+
+    document.addEventListener("DOMContentLoaded", renderGalleries);
+  </script>
 </body>
 </html>
