@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nesting Bay</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #f9f9f7; }
+    .brand-green { color: #0f3b2e; }
+    .brand-bg-green { background-color: #0f3b2e; }
+    .brand-gold { color: #c9a449; }
+    .brand-bg-gold { background-color: #c9a449; }
+  </style>
+</head>
+<body class="font-sans antialiased">
+
+  <!-- Navbar -->
+  <nav class="brand-bg-green text-white p-4 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <img src="nestingbay.in/images/nb_logo.png" alt="Nesting Bay Logo" class="h-10">
+      <span class="text-xl font-bold brand-gold">NESTING BAY</span>
+    </div>
+    <ul class="flex space-x-6 text-sm">
+      <li><a href="#hero" class="hover:text-[#c9a449]">Hero</a></li>
+      <li><a href="#kitchen" class="hover:text-[#c9a449]">Kitchen</a></li>
+      <li><a href="#living-room" class="hover:text-[#c9a449]">Living Room</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero" class="p-8 text-center">
+    <h2 class="text-3xl font-bold brand-green mb-6">Hero Showcase</h2>
+    <div id="hero-preview" class="cursor-pointer" onclick="openGallery('hero')"></div>
+  </section>
+
+  <!-- Kitchen Section -->
+  <section id="kitchen" class="p-8 text-center">
+    <h2 class="text-3xl font-bold brand-green mb-6">Kitchen Designs</h2>
+    <div id="kitchen-preview" class="cursor-pointer" onclick="openGallery('kitchen')"></div>
+  </section>
+
+  <!-- Living Room Section -->
+  <section id="living-room" class="p-8 text-center">
+    <h2 class="text-3xl font-bold brand-green mb-6">Living Room Designs</h2>
+    <div id="living-room-preview" class="cursor-pointer" onclick="openGallery('living-room')"></div>
+  </section>
+
+  <!-- Gallery Modal -->
+  <div id="gallery-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg max-w-4xl w-full p-6 relative">
+      <button onclick="closeGallery()" class="absolute top-3 right-3 text-gray-600 hover:text-black text-2xl">&times;</button>
+      <h3 id="gallery-title" class="text-xl font-bold mb-4 brand-green"></h3>
+      <div id="gallery-images" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/gallery.js"></script>
+</body>
+</html>
