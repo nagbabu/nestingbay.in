@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interior Design Material Calculator</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    :root {
+      --color-primary: #007bff;
+      --color-surface: #fff;
+      --color-background: #f7f8fa;
+      --color-border: #ddd;
+      --color-text: #222;
+      --color-text-secondary: #555;
+      --color-error: #e74c3c;
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: var(--color-background);
+      color: var(--color-text);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      color: var(--color-primary);
+      margin-bottom: 8px;
+    }
+
+    .card {
+      background: var(--color-surface);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+    }
+
+    button {
+      border: none;
+      background: var(--color-primary);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--color-border);
+      padding: 8px;
+      text-align: center;
+    }
+
+    tfoot td {
+      font-weight: bold;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 🔐 Redirect if not logged in -->
+  <script>
+    if (localStorage.getItem("authenticated") !== "true") {
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <div class="container">
+    <header>
+      <h1>
+        <i class="fas fa-ruler-combined"></i> Interior Design Material Calculator
+      </h1>
+      <p>
+        Calculate material quantities, labour, hardware, and profile glass
+        costs.
+      </p>
+    </header>
+
+    <!-- Category input area -->
+    <div class="card">
+      <h2>Project Categories</h2>
+      <div id="categoriesContainer"></div>
+      <button onclick="addCategory()">+ Add Category</button>
+      <button onclick="calculateMaterials()">Calculate Materials</button>
+    </div>
+
+    <!-- Results section -->
+    <div id="resultsSection" class="card hidden">
+      <h2>Material Requirements</h2>
+      <table id="resultsTable">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Surface Area (sq ft)</th>
+            <th>Profile Glass (sq ft)</th>
+            <th>Plywood Sheets</th>
+            <th>Outer Laminate</th>
+            <th>Inner Laminate</th>
+            <th>Fevicol (kg)</th>
+            <th>Edge Band (ft)</th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody"></tbody>
+        <tfoot id="resultsFooter"></tfoot>
+      </table>
+
+      <div class="card" style="margin-top: 30px;">
+        <h3><i class="fas fa-rupee-sign"></i> Cost Estimation</h3>
+        <div class="form-row" style="grid-template-columns: repeat(2, 1fr); gap: 15px;">
+          <div>
+            <label>Plywood Price per Sheet (₹)</label>
+            <input type="number" id="plywoodPrice" value="3600" onchange="calculateCost()" />
+          </div>
+          <div>
+            <label>Laminate Price per Sheet (₹)</label>
+            <input type="number" id="laminatePrice" value="2000" onchange="calculateCost()" />
+          </div>
+          <div>
+            <label>Fevicol Pro Bind per kg (₹)</label>
+            <input type="number" id="adhesivePrice" value="350" onchange="calculateCost()" />
+          </div>
+          <div>
+            <label>Edge Banding per ft (₹)</label>
+            <input type="number" id="edgeBandingPrice" value="15" onchange="calculateCost()" />
+          </div>
+          <div>
+            <label>Labour Cost per sq ft (₹)</label>
+            <input type="number" id="labourRate" value="200" onchange="calculateCost()" />
+          </div>
+          <div>
+            <label>Hardware Cost (₹)</label>
+            <input type="number" id="hardwareCost" value="0" onchange="calculateCost()" />
+          </div>
+          <div>
+            <label>Profile Glass Cost per SFT (₹)</label>
+            <input type="number" id="profileGlassRate" value="650" onchange="calculateCost()" />
+          </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <h3>Total Estimated Cost</h3>
+          <div id="totalCost" style="font-size: 1.5rem; color: var(--color-primary);">
+            ₹ 0
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔧 External script -->
+  <script src="calculator.js"></script>
+</body>
+</html>
