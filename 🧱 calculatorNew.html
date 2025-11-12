@@ -4,45 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Interior Design Material Calculator</title>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
       --color-primary: #007bff;
       --color-surface: #fff;
-      --color-background: #f7f8fa;
+      --color-background: #f8f9fa;
       --color-border: #ddd;
       --color-text: #222;
-      --color-text-secondary: #555;
-      --color-error: #e74c3c;
-      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+      --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
       font-family: "Segoe UI", sans-serif;
     }
-
-    body {
-      margin: 0;
-      background: var(--color-background);
-      color: var(--color-text);
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    header h1 {
-      color: var(--color-primary);
-      margin-bottom: 8px;
-    }
-
+    body { margin:0; background:var(--color-background); color:var(--color-text); }
+    .container { max-width:1100px; margin:40px auto; padding:0 20px; }
+    header { text-align:center; margin-bottom:30px; }
+    header h1 { color:var(--color-primary); margin-bottom:8px; }
     .card {
       background: var(--color-surface);
       padding: 20px;
@@ -50,21 +26,18 @@
       box-shadow: var(--shadow-sm);
       margin-bottom: 20px;
     }
-
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr auto;
       gap: 10px;
       margin-bottom: 10px;
     }
-
     input {
       width: 100%;
       padding: 8px;
       border: 1px solid var(--color-border);
       border-radius: 6px;
     }
-
     button {
       border: none;
       background: var(--color-primary);
@@ -73,31 +46,19 @@
       border-radius: 6px;
       cursor: pointer;
     }
-
-    button:hover {
-      background: #0056b3;
-    }
-
+    button:hover { background: #0056b3; }
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 20px;
     }
-
-    th,
-    td {
+    th, td {
       border: 1px solid var(--color-border);
       padding: 8px;
       text-align: center;
     }
-
-    tfoot td {
-      font-weight: bold;
-    }
-
-    .hidden {
-      display: none;
-    }
+    tfoot td { font-weight: bold; }
+    .hidden { display: none; }
   </style>
 </head>
 
@@ -111,16 +72,11 @@
 
   <div class="container">
     <header>
-      <h1>
-        <i class="fas fa-ruler-combined"></i> Interior Design Material Calculator
-      </h1>
-      <p>
-        Calculate material quantities, labour, hardware, and profile glass
-        costs.
-      </p>
+      <h1><i class="fas fa-ruler-combined"></i> Interior Design Material Calculator</h1>
+      <p>Calculate material quantities, labour, hardware, and profile glass costs.</p>
     </header>
 
-    <!-- Category input area -->
+    <!-- Category input -->
     <div class="card">
       <h2>Project Categories</h2>
       <div id="categoriesContainer"></div>
@@ -148,51 +104,177 @@
         <tfoot id="resultsFooter"></tfoot>
       </table>
 
-      <div class="card" style="margin-top: 30px;">
+      <!-- Cost Estimation -->
+      <div class="card" style="margin-top:30px;">
         <h3><i class="fas fa-rupee-sign"></i> Cost Estimation</h3>
         <div class="form-row" style="grid-template-columns: repeat(2, 1fr); gap: 15px;">
           <div>
             <label>Plywood Price per Sheet (₹)</label>
-            <input type="number" id="plywoodPrice" value="3600" onchange="calculateCost()" />
+            <input type="number" id="plywoodPrice" value="3600" onchange="calculateCost()">
           </div>
           <div>
             <label>Laminate Price per Sheet (₹)</label>
-            <input type="number" id="laminatePrice" value="2000" onchange="calculateCost()" />
+            <input type="number" id="laminatePrice" value="2000" onchange="calculateCost()">
           </div>
           <div>
             <label>Fevicol Pro Bind per kg (₹)</label>
-            <input type="number" id="adhesivePrice" value="350" onchange="calculateCost()" />
+            <input type="number" id="adhesivePrice" value="350" onchange="calculateCost()">
           </div>
           <div>
             <label>Edge Banding per ft (₹)</label>
-            <input type="number" id="edgeBandingPrice" value="15" onchange="calculateCost()" />
+            <input type="number" id="edgeBandingPrice" value="15" onchange="calculateCost()">
           </div>
           <div>
             <label>Labour Cost per sq ft (₹)</label>
-            <input type="number" id="labourRate" value="200" onchange="calculateCost()" />
+            <input type="number" id="labourRate" value="200" onchange="calculateCost()">
           </div>
           <div>
             <label>Hardware Cost (₹)</label>
-            <input type="number" id="hardwareCost" value="0" onchange="calculateCost()" />
+            <input type="number" id="hardwareCost" value="0" onchange="calculateCost()">
           </div>
           <div>
             <label>Profile Glass Cost per SFT (₹)</label>
-            <input type="number" id="profileGlassRate" value="650" onchange="calculateCost()" />
+            <input type="number" id="profileGlassRate" value="650" onchange="calculateCost()">
           </div>
         </div>
 
-        <div style="margin-top: 20px;">
+        <div style="margin-top:20px;">
           <h3>Total Estimated Cost</h3>
-          <div id="totalCost" style="font-size: 1.5rem; color: var(--color-primary);">
-            ₹ 0
-          </div>
+          <div id="totalCost" style="font-size:1.5rem;color:var(--color-primary);">₹ 0</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 🔧 External script -->
+  <!-- ================= SCRIPT SECTION ================= -->
+  <script>
+    // ============ CATEGORY MANAGEMENT ============
+    function addCategory() {
+      const container = document.getElementById("categoriesContainer");
+      const row = document.createElement("div");
+      row.className = "form-row";
+
+      row.innerHTML = `
+        <input type="text" placeholder="Category Name" class="categoryName">
+        <input type="number" placeholder="Surface Area (sq ft)" class="surfaceArea" min="0">
+        <input type="number" placeholder="Profile Glass (sq ft)" class="profileGlass" min="0">
+        <button onclick="this.parentElement.remove()">❌</button>
+      `;
+      container.appendChild(row);
+    }
+
+    // ============ MATERIAL CALCULATIONS ============
+    function calculateMaterials() {
+      const rows = document.querySelectorAll("#categoriesContainer .form-row");
+      const tbody = document.getElementById("resultsBody");
+      const tfoot = document.getElementById("resultsFooter");
+      const results = document.getElementById("resultsSection");
+
+      tbody.innerHTML = "";
+      tfoot.innerHTML = "";
+
+      if (rows.length === 0) {
+        alert("Please add at least one category!");
+        return;
+      }
+
+      let totals = {
+        area: 0,
+        profileGlass: 0,
+        plywood: 0,
+        outerLaminate: 0,
+        innerLaminate: 0,
+        adhesive: 0,
+        edgeBand: 0
+      };
+
+      rows.forEach(row => {
+        const name = row.querySelector(".categoryName").value || "Untitled";
+        const area = parseFloat(row.querySelector(".surfaceArea").value) || 0;
+        const profileGlass = parseFloat(row.querySelector(".profileGlass").value) || 0;
+
+        const plywoodSheets = Math.ceil((area / 32) * 1.1);
+        const outerLaminate = Math.ceil((area / 32) * 1.1);
+        const innerLaminate = Math.ceil((area / 32) * 1.1);
+        const adhesive = (area / 34) * 2;
+        const edgeBand = area * 0.5;
+
+        tbody.innerHTML += `
+          <tr>
+            <td>${name}</td>
+            <td>${area.toFixed(2)}</td>
+            <td>${profileGlass.toFixed(2)}</td>
+            <td>${plywoodSheets}</td>
+            <td>${outerLaminate}</td>
+            <td>${innerLaminate}</td>
+            <td>${adhesive.toFixed(2)}</td>
+            <td>${edgeBand.toFixed(2)}</td>
+          </tr>
+        `;
+
+        totals.area += area;
+        totals.profileGlass += profileGlass;
+        totals.plywood += plywoodSheets;
+        totals.outerLaminate += outerLaminate;
+        totals.innerLaminate += innerLaminate;
+        totals.adhesive += adhesive;
+        totals.edgeBand += edgeBand;
+      });
+
+      tfoot.innerHTML = `
+        <tr>
+          <td><b>Total</b></td>
+          <td>${totals.area.toFixed(2)}</td>
+          <td>${totals.profileGlass.toFixed(2)}</td>
+          <td>${totals.plywood}</td>
+          <td>${totals.outerLaminate}</td>
+          <td>${totals.innerLaminate}</td>
+          <td>${totals.adhesive.toFixed(2)}</td>
+          <td>${totals.edgeBand.toFixed(2)}</td>
+        </tr>
+      `;
+
+      results.classList.remove("hidden");
+      calculateCost();
+    }
+
+    // ============ COST CALCULATION ============
+    function calculateCost() {
+      const footerRow = document.querySelector("#resultsFooter tr");
+      if (!footerRow) return;
+
+      const cells = footerRow.querySelectorAll("td");
+
+      const totalArea = parseFloat(cells[1].textContent) || 0;
+      const totalProfileGlass = parseFloat(cells[2].textContent) || 0;
+      const totalPlywood = parseFloat(cells[3].textContent) || 0;
+      const totalOuterLaminate = parseFloat(cells[4].textContent) || 0;
+      const totalInnerLaminate = parseFloat(cells[5].textContent) || 0;
+      const totalAdhesive = parseFloat(cells[6].textContent) || 0;
+      const totalEdgeBand = parseFloat(cells[7].textContent) || 0;
+
+      const plywoodPrice = parseFloat(document.getElementById("plywoodPrice").value) || 0;
+      const laminatePrice = parseFloat(document.getElementById("laminatePrice").value) || 0;
+      const adhesivePrice = parseFloat(document.getElementById("adhesivePrice").value) || 0;
+      const edgeBandingPrice = parseFloat(document.getElementById("edgeBandingPrice").value) || 0;
+      const labourRate = parseFloat(document.getElementById("labourRate").value) || 0;
+      const hardwareCost = parseFloat(document.getElementById("hardwareCost").value) || 0;
+      const profileGlassRate = parseFloat(document.getElementById("profileGlassRate").value) || 0;
+
+      const materialCost =
+        totalPlywood * plywoodPrice +
+        (totalOuterLaminate + totalInnerLaminate) * laminatePrice +
+        totalAdhesive * adhesivePrice +
+        totalEdgeBand * edgeBandingPrice;
+
+      const labourCost = totalArea * labourRate;
+      const profileGlassCost = totalProfileGlass * profileGlassRate;
+      const totalCost = materialCost + labourCost + hardwareCost + profileGlassCost;
+
+      document.getElementById("totalCost").textContent =
+        `₹ ${totalCost.toLocaleString("en-IN", { maximumFractionDigits: 0 })}`;
+    }
+  </script>
   <script src="login.js"></script>
-  <script src="calculator.js"></script>
 </body>
 </html>
