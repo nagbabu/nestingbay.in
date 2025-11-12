@@ -3,7 +3,7 @@
 // Change credentials here:
 const LOGIN_CREDENTIALS = {
   username: "admin",
-  password: "1234"
+  password: "NB@0707"
 };
 
 function login() {
