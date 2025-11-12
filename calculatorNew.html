@@ -1,324 +1,496 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interior Design Material Calculator (Secure)</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    :root {
-      --color-primary: #007bff;
-      --color-surface: #fff;
-      --color-background: #f8f9fa;
-      --color-border: #ddd;
-      --color-text: #222;
-      --color-error: #e74c3c;
-      --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
-      font-family: "Segoe UI", sans-serif;
-    }
-    body { margin:0; background:var(--color-background); color:var(--color-text); }
-    .container { max-width:1100px; margin:40px auto; padding:0 20px; }
-    header { text-align:center; margin-bottom:30px; }
-    header h1 { color:var(--color-primary); margin-bottom:8px; }
-    .card {
-      background: var(--color-surface);
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 20px;
-    }
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr auto;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    input {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid var(--color-border);
-      border-radius: 6px;
-    }
-    button {
-      border: none;
-      background: var(--color-primary);
-      color: white;
-      padding: 8px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover { background: #0056b3; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    th, td {
-      border: 1px solid var(--color-border);
-      padding: 8px;
-      text-align: center;
-    }
-    tfoot td { font-weight: bold; }
-    .hidden { display: none; }
-
-    /* Login Screen */
-    #loginScreen {
-      position: fixed; top:0; left:0; width:100%; height:100%;
-      background: var(--color-background);
-      display:flex; align-items:center; justify-content:center;
-      z-index:9999;
-    }
-    #loginBox {
-      background:white; padding:40px; border-radius:10px; width:320px;
-      box-shadow:0 0 10px rgba(0,0,0,0.2); text-align:center;
-    }
-    #loginBox input { margin:8px 0; padding:10px; width:100%; border-radius:6px; border:1px solid #ccc; }
-    #loginBox button { margin-top:10px; width:100%; background:var(--color-primary); border:none; color:white; padding:10px; border-radius:6px; font-size:16px; cursor:pointer; }
-    #loginBox button:hover { background:#0056b3; }
-    #loginError { color: var(--color-error); display:none; margin-top:10px; }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Interior Design Material Calculator (Complete)</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --color-primary: #21807a;
+    --bg: #fbfbf9;
+    --card: #fff;
+    --muted: #6b7280;
+    --border: #e9eceb;
+    --radius: 10px;
+    --space-8: 8px;
+    font-family: Inter, Arial, sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:#24303a;padding:24px}
+  .container{max-width:1200px;margin:0 auto}
+  .header{background:var(--card);padding:20px;border-radius:var(--radius);border:1px solid var(--border);margin-bottom:20px}
+  .header h1{margin:0;color:var(--color-primary);font-size:22px}
+  .header p{margin:6px 0 0;color:var(--muted)}
+  .card{background:var(--card);padding:18px;border-radius:var(--radius);border:1px solid var(--border);margin-bottom:18px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+  input, select{width:100%;padding:8px;border-radius:8px;border:1px solid #d6d8d6;background:transparent}
+  button{padding:8px 12px;border-radius:8px;border:none;background:var(--color-primary);color:white;cursor:pointer}
+  button.secondary{background:transparent;color:var(--color-primary);border:1px solid var(--border)}
+  .btn-group{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  table{width:100%;border-collapse:collapse;margin-top:12px}
+  th,td{padding:10px;border:1px solid var(--border);text-align:left;font-size:14px}
+  thead{background:#f6fbfb}
+  tfoot{background:#f1fbfa;font-weight:600}
+  .hidden{display:none!important}
+  .actions{display:flex;gap:10px;flex-wrap:wrap}
+  .small{font-size:13px;color:var(--muted)}
+  .category-list{list-style:none;padding:0;margin:0}
+  .category-list li{padding:8px 0;border-bottom:1px dashed #eee;display:flex;justify-content:space-between;gap:10px}
+  .info-panel{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .info-panel-header{display:flex;align-items:center;justify-content:space-between;padding:12px;background:#f3f6f6;cursor:pointer}
+  .info-panel-content{padding:16px;display:block}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+  .info-item{background:transparent;border:1px solid #f0f3f3;padding:12px;border-radius:8px}
+  .info-item h4{margin:0 0 8px;color:var(--color-primary)}
+  @media (max-width:880px){ .form-row{grid-template-columns:1fr; } }
+  @media print {
+    button, .btn-group, .info-panel-header { display: none !important; }
+    .info-panel-content { display: block !important; }
+  }
+  /* login */
+  #loginScreen { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.04); z-index:9999 }
+  #loginBox{width:360px;background:var(--card);padding:20px;border-radius:12px;border:1px solid var(--border);box-shadow:0 6px 18px rgba(0,0,0,0.06); text-align:center}
+  #loginBox input{margin:8px 0;padding:10px}
+  #loginError{color:#b91c1c;margin-top:8px;display:none}
+  .top-actions{display:flex;gap:10px;align-items:center;justify-content:flex-end}
+</style>
 </head>
 <body>
-
-  <!-- LOGIN SCREEN -->
+  <!-- LOGIN -->
   <div id="loginScreen">
-    <div id="loginBox">
-      <h2><i class="fas fa-lock"></i> Secure Login</h2>
-      <input type="text" id="username" placeholder="Username">
-      <input type="password" id="password" placeholder="Password">
-      <button onclick="checkLogin()">Login</button>
-      <p id="loginError">Invalid username or password</p>
+    <div id="loginBox" role="dialog" aria-labelledby="loginTitle">
+      <h2 id="loginTitle"><i class="fas fa-lock"></i> Login</h2>
+      <input id="username" placeholder="Username" autocomplete="username">
+      <input id="password" type="password" placeholder="Password" autocomplete="current-password">
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button onclick="checkLogin()">Login</button>
+        <button class="secondary" onclick="fillDemo()">Demo</button>
+      </div>
+      <p id="loginError">Invalid credentials</p>
+      <p class="small" style="margin-top:10px">Default: <strong>admin</strong> / <strong>1234</strong></p>
     </div>
   </div>
 
-  <!-- MAIN CALCULATOR -->
-  <div class="container hidden" id="calculatorApp">
-    <header>
+  <!-- APP -->
+  <div class="container hidden" id="app">
+    <div class="header">
       <h1><i class="fas fa-ruler-combined"></i> Interior Design Material Calculator</h1>
-      <p>Calculate materials, labour, hardware, and profile glass costs.</p>
-    </header>
+      <p>Calculate accurate material requirements for your interior design projects</p>
+      <div class="top-actions" style="margin-top:12px">
+        <button onclick="logout()" class="secondary" title="Logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </div>
 
-    <!-- Category input -->
+    <!-- Inputs -->
     <div class="card">
-      <h2>Project Categories</h2>
-      <div id="categoriesContainer"></div>
-      <button onclick="addCategory()">+ Add Category</button>
-      <button onclick="calculateMaterials()">Calculate Materials</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <h3 style="margin:0">Project Categories</h3>
+        <div class="actions">
+          <button onclick="addCategory()"><i class="fas fa-plus"></i> Add Category</button>
+          <button onclick="calculateMaterials()"><i class="fas fa-calculator"></i> Calculate Materials</button>
+          <button onclick="clearAll()" class="secondary"><i class="fas fa-trash"></i> Clear All</button>
+          <button onclick="window.print()" class="secondary"><i class="fas fa-print"></i> Print</button>
+        </div>
+      </div>
+
+      <div id="categoriesContainer" style="margin-top:14px"></div>
+
+      <div style="margin-top:12px">
+        <strong>Category Items:</strong>
+        <ul id="categoryList" class="category-list" style="margin-top:8px"></ul>
+      </div>
     </div>
 
     <!-- Results -->
     <div id="resultsSection" class="card hidden">
-      <h2>Material Requirements</h2>
-      <table id="resultsTable">
-        <thead>
-          <tr>
-            <th>Category</th>
-            <th>Surface Area (sq ft)</th>
-            <th>Profile Glass (sq ft)</th>
-            <th>Plywood Sheets</th>
-            <th>Outer Laminate</th>
-            <th>Inner Laminate</th>
-            <th>Fevicol (kg)</th>
-            <th>Edge Band (ft)</th>
-          </tr>
-        </thead>
-        <tbody id="resultsBody"></tbody>
-        <tfoot id="resultsFooter"></tfoot>
-      </table>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3 style="margin:0"><i class="fas fa-table"></i> Material Requirements</h3>
+      </div>
 
-      <!-- Cost Estimation -->
-      <div class="card" style="margin-top:30px;">
-        <h3><i class="fas fa-rupee-sign"></i> Cost Estimation</h3>
-        <div class="form-row" style="grid-template-columns: repeat(2, 1fr); gap: 15px;">
+      <div style="overflow:auto;margin-top:12px">
+        <table id="resultsTable">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Surface Area (sq ft)</th>
+              <th>Profile Glass (sq ft)</th>
+              <th>Plywood Sheets</th>
+              <th>Outer Laminate</th>
+              <th>Inter Laminate</th>
+              <th>Fevicol (kg)</th>
+              <th>Edge Band (ft)</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody"></tbody>
+          <tfoot id="resultsFooter"></tfoot>
+        </table>
+      </div>
+
+      <!-- Cost -->
+      <div class="card" style="margin-top:16px">
+        <h4 style="margin:0 0 10px"><i class="fas fa-rupee-sign"></i> Cost Estimation</h4>
+        <div class="form-row" style="grid-template-columns:repeat(3,1fr);gap:12px">
           <div>
-            <label>Plywood Price per Sheet (₹)</label>
-            <input type="number" id="plywoodPrice" value="3600" onchange="calculateCost()">
+            <label class="small">Plywood Price per Sheet (₹)</label>
+            <input id="plywoodPrice" type="number" value="3600" onchange="calculateCost()">
           </div>
           <div>
-            <label>Laminate Price per Sheet (₹)</label>
-            <input type="number" id="laminatePrice" value="2000" onchange="calculateCost()">
+            <label class="small">Laminate Price per Sheet (₹)</label>
+            <input id="laminatePrice" type="number" value="2000" onchange="calculateCost()">
           </div>
           <div>
-            <label>Fevicol Pro Bind per kg (₹)</label>
-            <input type="number" id="adhesivePrice" value="350" onchange="calculateCost()">
+            <label class="small">Fevicol Pro Bind per kg (₹)</label>
+            <input id="adhesivePrice" type="number" value="350" onchange="calculateCost()">
           </div>
           <div>
-            <label>Edge Banding per ft (₹)</label>
-            <input type="number" id="edgeBandingPrice" value="15" onchange="calculateCost()">
+            <label class="small">Edge Banding per ft (₹)</label>
+            <input id="edgeBandingPrice" type="number" value="15" onchange="calculateCost()">
           </div>
           <div>
-            <label>Labour Cost per sq ft (₹)</label>
-            <input type="number" id="labourRate" value="200" onchange="calculateCost()">
+            <label class="small">Labour Cost per sq ft (₹)</label>
+            <input id="labourRate" type="number" value="200" onchange="calculateCost()">
           </div>
           <div>
-            <label>Hardware Cost (₹)</label>
-            <input type="number" id="hardwareCost" value="0" onchange="calculateCost()">
+            <label class="small">Hardware Cost (₹)</label>
+            <input id="hardwareCost" type="number" value="0" onchange="calculateCost()">
           </div>
           <div>
-            <label>Profile Glass Cost per SFT (₹)</label>
-            <input type="number" id="profileGlassRate" value="650" onchange="calculateCost()">
+            <label class="small">Profile Glass Cost per SFT (₹)</label>
+            <input id="profileGlassRate" type="number" value="650" onchange="calculateCost()">
           </div>
         </div>
 
-        <div style="margin-top:20px;">
-          <h3>Total Estimated Cost</h3>
-          <div id="totalCost" style="font-size:1.5rem;color:var(--color-primary);">₹ 0</div>
+        <div style="margin-top:16px">
+          <h4 style="margin:0 0 6px">Total Estimated Cost</h4>
+          <div id="totalCost" style="font-size:20px;color:var(--color-primary)">₹ 0</div>
+          <div class="small" style="margin-top:6px;color:var(--muted)">Excluding taxes & transport</div>
         </div>
       </div>
     </div>
+
+    <!-- Info Panel -->
+    <div class="info-panel" style="margin-top:12px">
+      <div class="info-panel-header" id="infoHeader" onclick="toggleInfo()">
+        <div style="display:flex;align-items:center;gap:8px">
+          <i class="fas fa-info-circle"></i>
+          <strong>Material Information &amp; Guidelines</strong>
+        </div>
+        <i class="fas fa-chevron-down" id="infoIcon"></i>
+      </div>
+      <div class="info-panel-content" id="infoContent">
+        <div class="info-grid">
+          <div class="info-item">
+            <h4><i class="fas fa-layer-group"></i> Plywood</h4>
+            <p><strong>Standard Size:</strong> 8 ft × 4 ft (32 sq ft)</p>
+            <p><strong>Common Thickness:</strong> 6mm, 9mm, 12mm, 18mm, 25mm</p>
+            <p><strong>Wastage Factor:</strong> 10% included in calculations</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fas fa-border-style"></i> Laminate</h4>
+            <p><strong>Standard Size:</strong> 8 ft × 4 ft (32 sq ft)</p>
+            <p><strong>Types:</strong></p>
+            <ul>
+              <li>Outer Laminate (Decorative)</li>
+              <li>Inter Laminate (Inner surfaces)</li>
+            </ul>
+            <p><strong>Wastage Factor:</strong> 10% included</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fas fa-fill-drip"></i> Fevicol Pro Bind</h4>
+            <p><strong>Coverage:</strong> 32-36 sq ft per kg (avg: 34 sq ft)</p>
+            <p><strong>Application:</strong> Both sides of plywood for laminate bonding</p>
+            <p><strong>Usage:</strong> Essential for permanent laminate adhesion</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fas fa-ruler-horizontal"></i> Edge Banding</h4>
+            <p><strong>Measurement:</strong> Running feet</p>
+            <p><strong>Common Widths:</strong> 18mm, 22mm, 25mm, 28mm</p>
+            <p><strong>Note:</strong> Requires detailed component perimeter measurements for accuracy</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fas fa-tools"></i> Hardware Items</h4>
+            <ul>
+              <li>Hinges</li>
+              <li>Handles/Knobs</li>
+              <li>Drawer channels/slides</li>
+              <li>Screws and fasteners</li>
+              <li>Soft-close mechanisms</li>
+              <li>Lift-up systems</li>
+              <li>Pull-out organizers</li>
+            </ul>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fas fa-ruler-combined"></i> Measurement Tips</h4>
+            <p><strong>Kitchen:</strong> Measure all base cabinets, wall cabinets, tall units, and loft areas</p>
+            <p><strong>Wardrobe:</strong> Include all shutters, internal shelves, and drawer components</p>
+            <p><strong>General:</strong> Length × Height for vertical surfaces, Length × Width for horizontal</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <script>
-    // ================= LOGIN =================
-    const LOGIN_CREDENTIALS = { username: "admin", password: "1234" };
+<script>
+/* ================= LOGIN ================= */
+const LOGIN_CREDENTIALS = { username: "admin", password: "1234" };
 
-    function checkLogin() {
-      const user = document.getElementById("username").value.trim();
-      const pass = document.getElementById("password").value.trim();
-      const error = document.getElementById("loginError");
+function checkLogin(){
+  const u = document.getElementById('username').value.trim();
+  const p = document.getElementById('password').value.trim();
+  const e = document.getElementById('loginError');
+  if(u === LOGIN_CREDENTIALS.username && p === LOGIN_CREDENTIALS.password){
+    localStorage.setItem('authenticated','true');
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('app').classList.remove('hidden');
+    // init app with one empty category
+    if(document.querySelectorAll('#categoriesContainer .form-row').length === 0) addCategory();
+  } else {
+    e.style.display='block';
+    setTimeout(()=> e.style.display='none',3000);
+  }
+}
+function fillDemo(){ document.getElementById('username').value='admin'; document.getElementById('password').value='1234'; }
 
-      if (user === LOGIN_CREDENTIALS.username && pass === LOGIN_CREDENTIALS.password) {
-        localStorage.setItem("authenticated", "true");
-        document.getElementById("loginScreen").style.display = "none";
-        document.getElementById("calculatorApp").classList.remove("hidden");
-      } else {
-        error.style.display = "block";
-      }
-    }
+/* Auto open if already authenticated */
+window.addEventListener('load', ()=>{
+  if(localStorage.getItem('authenticated') === 'true'){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('app').classList.remove('hidden');
+    if(document.querySelectorAll('#categoriesContainer .form-row').length === 0) addCategory();
+  }
+});
 
-    // Auto-login if already authenticated
-    window.addEventListener("load", () => {
-      if (localStorage.getItem("authenticated") === "true") {
-        document.getElementById("loginScreen").style.display = "none";
-        document.getElementById("calculatorApp").classList.remove("hidden");
-      }
-    });
+/* Logout */
+function logout(){
+  if(confirm('Logout?')){
+    localStorage.removeItem('authenticated');
+    location.reload();
+  }
+}
 
-    // ================= CATEGORY MANAGEMENT =================
-    function addCategory() {
-      const container = document.getElementById("categoriesContainer");
-      const row = document.createElement("div");
-      row.className = "form-row";
+/* =============== CATEGORY MANAGEMENT ================ */
+function addCategory(name='', area='', profile=''){
+  const container = document.getElementById('categoriesContainer');
+  const row = document.createElement('div');
+  row.className = 'form-row';
+  row.innerHTML = `
+    <div>
+      <label class="small">Category Name</label>
+      <select class="categoryName">
+        <option value="">Select category...</option>
+        <option>KITCHEN</option><option>LIVING AREA</option><option>TV UNIT</option><option>WARDROBE</option>
+        <option>BEDROOM</option><option>DRAWERS</option><option>STUDY UNIT</option><option>DINING AREA</option>
+        <option>POOJA UNIT</option><option>CROCKERY UNIT</option><option>SHOE RACK</option><option>CUSTOM</option>
+      </select>
+    </div>
+    <div>
+      <label class="small">Surface Area (sq ft)</label>
+      <input class="surfaceArea" type="number" placeholder="e.g. 150" min="0" step="0.01">
+    </div>
+    <div>
+      <label class="small">Profile Glass (sq ft)</label>
+      <input class="profileGlass" type="number" placeholder="e.g. 10" min="0" step="0.01">
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="secondary" title="Remove" onclick="this.closest('.form-row').remove(); updateCategoryList();">Remove</button>
+    </div>
+  `;
+  container.appendChild(row);
+  // set values if provided
+  if(name) row.querySelector('.categoryName').value = name;
+  if(area) row.querySelector('.surfaceArea').value = area;
+  if(profile) row.querySelector('.profileGlass').value = profile;
 
-      row.innerHTML = `
-        <input type="text" placeholder="Category Name" class="categoryName">
-        <input type="number" placeholder="Surface Area (sq ft)" class="surfaceArea" min="0">
-        <input type="number" placeholder="Profile Glass (sq ft)" class="profileGlass" min="0">
-        <button onclick="this.parentElement.remove()">❌</button>
-      `;
-      container.appendChild(row);
-    }
+  // update category list on change
+  row.querySelectorAll('select,input').forEach(el=>{
+    el.addEventListener('input', updateCategoryList);
+  });
+  updateCategoryList();
+}
 
-    // ================= MATERIAL CALCULATIONS =================
-    function calculateMaterials() {
-      const rows = document.querySelectorAll("#categoriesContainer .form-row");
-      const tbody = document.getElementById("resultsBody");
-      const tfoot = document.getElementById("resultsFooter");
-      const results = document.getElementById("resultsSection");
+/* Update visible list of categories */
+function updateCategoryList(){
+  const list = document.getElementById('categoryList');
+  list.innerHTML = '';
+  const rows = document.querySelectorAll('#categoriesContainer .form-row');
+  if(rows.length === 0){
+    document.getElementById('categoryListCard')?.classList.add('hidden');
+    return;
+  } else {
+    document.getElementById('categoryListCard')?.classList.remove('hidden');
+  }
+  rows.forEach((r, idx) => {
+    const name = r.querySelector('.categoryName').value || `Category ${idx+1}`;
+    const area = r.querySelector('.surfaceArea').value || '0';
+    const profile = r.querySelector('.profileGlass').value || '0';
+    const li = document.createElement('li');
+    li.innerHTML = `<span><strong>${name}</strong> — ${area} sq ft</span><span class="small">Profile: ${profile} sft</span>`;
+    list.appendChild(li);
+  });
+}
 
-      tbody.innerHTML = "";
-      tfoot.innerHTML = "";
+/* Clear all categories */
+function clearAll(){
+  if(!confirm('Are you sure you want to clear all data?')) return;
+  document.getElementById('categoriesContainer').innerHTML = '';
+  document.getElementById('resultsSection').classList.add('hidden');
+  document.getElementById('categoryList').innerHTML = '';
+  addCategory();
+}
 
-      if (rows.length === 0) {
-        alert("Please add at least one category!");
-        return;
-      }
+/* =============== CALCULATIONS ================ */
+const CONSTANTS = {
+  PLY_SHEET_AREA: 32,
+  LAM_SHEET_AREA: 32,
+  WASTAGE: 1.10, // 10%
+  ADHESIVE_COVERAGE: 34,
+  ADHESIVE_SIDES: 2,
+  EDGE_FACTOR: 0.5
+};
 
-      let totals = {
-        area: 0,
-        profileGlass: 0,
-        plywood: 0,
-        outerLaminate: 0,
-        innerLaminate: 0,
-        adhesive: 0,
-        edgeBand: 0
-      };
+function validateInputs(){
+  const rows = document.querySelectorAll('#categoriesContainer .form-row');
+  if(rows.length === 0) return ['Add at least one category'];
+  const errors = [];
+  rows.forEach((r,i)=>{
+    const name = r.querySelector('.categoryName').value;
+    const area = r.querySelector('.surfaceArea').value;
+    if(!name) errors.push(`Category ${i+1}: select name`);
+    if(!area || parseFloat(area) <= 0) errors.push(`Category ${i+1}: enter valid surface area`);
+  });
+  return errors;
+}
 
-      rows.forEach(row => {
-        const name = row.querySelector(".categoryName").value || "Untitled";
-        const area = parseFloat(row.querySelector(".surfaceArea").value) || 0;
-        const profileGlass = parseFloat(row.querySelector(".profileGlass").value) || 0;
+function calculateMaterials(){
+  const errs = validateInputs();
+  if(errs.length){
+    alert('Please fix:\n\n' + errs.join('\n'));
+    return;
+  }
+  const rows = document.querySelectorAll('#categoriesContainer .form-row');
+  const tbody = document.getElementById('resultsBody');
+  const tfoot = document.getElementById('resultsFooter');
+  tbody.innerHTML = ''; tfoot.innerHTML = '';
 
-        const plywoodSheets = Math.ceil((area / 32) * 1.1);
-        const outerLaminate = Math.ceil((area / 32) * 1.1);
-        const innerLaminate = Math.ceil((area / 32) * 1.1);
-        const adhesive = (area / 34) * 2;
-        const edgeBand = area * 0.5;
+  let totals = { area:0, profileGlass:0, plywood:0, outerLam:0, innerLam:0, adhesive:0, edge:0 };
 
-        tbody.innerHTML += `
-          <tr>
-            <td>${name}</td>
-            <td>${area.toFixed(2)}</td>
-            <td>${profileGlass.toFixed(2)}</td>
-            <td>${plywoodSheets}</td>
-            <td>${outerLaminate}</td>
-            <td>${innerLaminate}</td>
-            <td>${adhesive.toFixed(2)}</td>
-            <td>${edgeBand.toFixed(2)}</td>
-          </tr>
-        `;
+  rows.forEach(r=>{
+    const name = r.querySelector('.categoryName').value;
+    const area = parseFloat(r.querySelector('.surfaceArea').value) || 0;
+    const profileGlass = parseFloat(r.querySelector('.profileGlass').value) || 0;
 
-        totals.area += area;
-        totals.profileGlass += profileGlass;
-        totals.plywood += plywoodSheets;
-        totals.outerLaminate += outerLaminate;
-        totals.innerLaminate += innerLaminate;
-        totals.adhesive += adhesive;
-        totals.edgeBand += edgeBand;
-      });
+    const plywoodSheets = Math.ceil((area / CONSTANTS.PLY_SHEET_AREA) * CONSTANTS.WASTAGE);
+    const outerLam = Math.ceil((area / CONSTANTS.LAM_SHEET_AREA) * CONSTANTS.WASTAGE);
+    const innerLam = Math.ceil((area / CONSTANTS.LAM_SHEET_AREA) * CONSTANTS.WASTAGE);
+    const adhesive = parseFloat(((area * CONSTANTS.ADHESIVE_SIDES) / CONSTANTS.ADHESIVE_COVERAGE).toFixed(2));
+    const edge = parseFloat((area * CONSTANTS.EDGE_FACTOR).toFixed(2));
 
-      tfoot.innerHTML = `
-        <tr>
-          <td><b>Total</b></td>
-          <td>${totals.area.toFixed(2)}</td>
-          <td>${totals.profileGlass.toFixed(2)}</td>
-          <td>${totals.plywood}</td>
-          <td>${totals.outerLaminate}</td>
-          <td>${totals.innerLaminate}</td>
-          <td>${totals.adhesive.toFixed(2)}</td>
-          <td>${totals.edgeBand.toFixed(2)}</td>
-        </tr>
-      `;
+    tbody.insertAdjacentHTML('beforeend', `
+      <tr>
+        <td><strong>${escapeHtml(name)}</strong></td>
+        <td>${area.toFixed(2)}</td>
+        <td>${profileGlass.toFixed(2)}</td>
+        <td>${plywoodSheets}</td>
+        <td>${outerLam}</td>
+        <td>${innerLam}</td>
+        <td>${adhesive.toFixed(2)}</td>
+        <td>${edge.toFixed(2)}</td>
+      </tr>
+    `);
 
-      results.classList.remove("hidden");
-      calculateCost();
-    }
+    totals.area += area;
+    totals.profileGlass += profileGlass;
+    totals.plywood += plywoodSheets;
+    totals.outerLam += outerLam;
+    totals.innerLam += innerLam;
+    totals.adhesive += adhesive;
+    totals.edge += edge;
+  });
 
-    // ================= COST CALCULATIONS =================
-    function calculateCost() {
-      const footerRow = document.querySelector("#resultsFooter tr");
-      if (!footerRow) return;
+  tfoot.innerHTML = `
+    <tr>
+      <td><b>TOTAL</b></td>
+      <td><b>${totals.area.toFixed(2)}</b></td>
+      <td><b>${totals.profileGlass.toFixed(2)}</b></td>
+      <td><b>${totals.plywood}</b></td>
+      <td><b>${totals.outerLam}</b></td>
+      <td><b>${totals.innerLam}</b></td>
+      <td><b>${totals.adhesive.toFixed(2)}</b></td>
+      <td><b>${totals.edge.toFixed(2)}</b></td>
+    </tr>
+  `;
 
-      const cells = footerRow.querySelectorAll("td");
-      const totalArea = parseFloat(cells[1].textContent) || 0;
-      const totalProfileGlass = parseFloat(cells[2].textContent) || 0;
-      const totalPlywood = parseFloat(cells[3].textContent) || 0;
-      const totalOuterLaminate = parseFloat(cells[4].textContent) || 0;
-      const totalInnerLaminate = parseFloat(cells[5].textContent) || 0;
-      const totalAdhesive = parseFloat(cells[6].textContent) || 0;
-      const totalEdgeBand = parseFloat(cells[7].textContent) || 0;
+  document.getElementById('resultsSection').classList.remove('hidden');
+  calculateCost();
+}
 
-      const plywoodPrice = parseFloat(document.getElementById("plywoodPrice").value) || 0;
-      const laminatePrice = parseFloat(document.getElementById("laminatePrice").value) || 0;
-      const adhesivePrice = parseFloat(document.getElementById("adhesivePrice").value) || 0;
-      const edgeBandingPrice = parseFloat(document.getElementById("edgeBandingPrice").value) || 0;
-      const labourRate = parseFloat(document.getElementById("labourRate").value) || 0;
-      const hardwareCost = parseFloat(document.getElementById("hardwareCost").value) || 0;
-      const profileGlassRate = parseFloat(document.getElementById("profileGlassRate").value) || 0;
+/* COST */
+function calculateCost(){
+  const footerRow = document.querySelector('#resultsFooter tr');
+  if(!footerRow) return;
+  const cells = footerRow.querySelectorAll('td');
+  const totalArea = parseFloat(cells[1].textContent) || 0;
+  const totalProfile = parseFloat(cells[2].textContent) || 0;
+  const totalPlywood = parseFloat(cells[3].textContent) || 0;
+  const totalOuter = parseFloat(cells[4].textContent) || 0;
+  const totalInner = parseFloat(cells[5].textContent) || 0;
+  const totalAdhesive = parseFloat(cells[6].textContent) || 0;
+  const totalEdge = parseFloat(cells[7].textContent) || 0;
 
-      const materialCost =
-        totalPlywood * plywoodPrice +
-        (totalOuterLaminate + totalInnerLaminate) * laminatePrice +
-        totalAdhesive * adhesivePrice +
-        totalEdgeBand * edgeBandingPrice;
+  const plywoodPrice = parseFloat(document.getElementById('plywoodPrice').value) || 0;
+  const laminatePrice = parseFloat(document.getElementById('laminatePrice').value) || 0;
+  const adhesivePrice = parseFloat(document.getElementById('adhesivePrice').value) || 0;
+  const edgePrice = parseFloat(document.getElementById('edgeBandingPrice').value) || 0;
+  const labourRate = parseFloat(document.getElementById('labourRate').value) || 0;
+  const hardwareCost = parseFloat(document.getElementById('hardwareCost').value) || 0;
+  const profileRate = parseFloat(document.getElementById('profileGlassRate').value) || 0;
 
-      const labourCost = totalArea * labourRate;
-      const profileGlassCost = totalProfileGlass * profileGlassRate;
-      const totalCost = materialCost + labourCost + hardwareCost + profileGlassCost;
+  const materialCost =
+    (totalPlywood * plywoodPrice) +
+    ((totalOuter + totalInner) * laminatePrice) +
+    (totalAdhesive * adhesivePrice) +
+    (totalEdge * edgePrice);
 
-      document.getElementById("totalCost").textContent =
-        `₹ ${totalCost.toLocaleString("en-IN", { maximumFractionDigits: 0 })}`;
-    }
-  </script>
+  const labourCost = totalArea * labourRate;
+  const profileCost = totalProfile * profileRate;
+
+  const grandTotal = materialCost + labourCost + hardwareCost + profileCost;
+
+  document.getElementById('totalCost').textContent = `₹ ${grandTotal.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+}
+
+/* Info toggle */
+function toggleInfo(){
+  const c = document.getElementById('infoContent');
+  const icon = document.getElementById('infoIcon');
+  c.style.display = c.style.display === 'none' ? 'block' : 'none';
+  icon.classList.toggle('fa-chevron-up');
+  icon.classList.toggle('fa-chevron-down');
+}
+
+/* Utility: escape for HTML */
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+}
+
+/* initialize */
+(function init(){
+  // Initially hide info content (collapsed)
+  document.getElementById('infoContent').style.display = 'none';
+  // Start with one category row (if logged in)
+  if(localStorage.getItem('authenticated') === 'true'){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('app').classList.remove('hidden');
+    addCategory();
+  }
+})();
+</script>
 </body>
 </html>
