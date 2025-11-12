@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Interior Design Material Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+  /* Primitive Color Tokens */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+
+  /* RGB versions for opacity control */
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+
+  /* Background color tokens (Light Mode) */
+  --color-bg-1: rgba(59, 130, 246, 0.08);
+  --color-bg-2: rgba(245, 158, 11, 0.08);
+  --color-bg-3: rgba(34, 197, 94, 0.08);
+  --color-bg-4: rgba(239, 68, 68, 0.08);
+  --color-bg-5: rgba(147, 51, 234, 0.08);
+  --color-bg-6: rgba(249, 115, 22, 0.08);
+  --color-bg-7: rgba(236, 72, 153, 0.08);
+  --color-bg-8: rgba(6, 182, 212, 0.08);
+
+  /* Semantic Color Tokens (Light Mode) */
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-teal-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
+  --focus-outline: 2px solid var(--color-primary);
+  --status-bg-opacity: 0.15;
+  --status-border-opacity: 0.25;
+  --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+  --color-success-rgb: 33, 128, 141;
+  --color-error-rgb: 192, 21, 47;
+  --color-warning-rgb: 168, 75, 47;
+  --color-info-rgb: 98, 108, 113;
+
+  /* Typography */
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --letter-spacing-tight: -0.01em;
+
+  /* Spacing */
+  --space-0: 0;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+
+  /* Animation */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-gray-400-rgb: 119, 124, 124;
+    --color-teal-300-rgb: 50, 184, 198;
+    --color-gray-300-rgb: 167, 169, 169;
+    --color-gray-200-rgb: 245, 245, 245;
+
+    --color-bg-1: rgba(29, 78, 216, 0.15);
+    --color-bg-2: rgba(180, 83, 9, 0.15);
+    --color-bg-3: rgba(21, 128, 61, 0.15);
+    --color-bg-4: rgba(185, 28, 28, 0.15);
+    --color-bg-5: rgba(107, 33, 168, 0.15);
+    --color-bg-6: rgba(194, 65, 12, 0.15);
+    --color-bg-7: rgba(190, 24, 93, 0.15);
+    --color-bg-8: rgba(8, 145, 178, 0.15);
+
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-error: var(--color-red-400);
+    --color-success: var(--color-teal-300);
+    --color-warning: var(--color-orange-400);
+    --color-info: var(--color-gray-300);
+    --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+    --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+
+    --color-success-rgb: var(--color-teal-300-rgb);
+    --color-error-rgb: var(--color-red-400-rgb);
+    --color-warning-rgb: var(--color-orange-400-rgb);
+    --color-info-rgb: var(--color-gray-300-rgb);
+  }
+}
+
+@font-face {
+  font-family: 'FKGroteskNeue';
+  src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2') format('woff2');
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  padding: var(--space-20);
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-32);
+  padding: var(--space-24);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-card-border);
+}
+
+.header h1 {
+  font-size: var(--font-size-4xl);
+  color: var(--color-text);
+  margin-bottom: var(--space-8);
+  font-weight: var(--font-weight-bold);
+}
+
+.header p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-lg);
+  margin: 0;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-24);
+}
+
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-card-border);
+  padding: var(--space-24);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  margin-bottom: var(--space-20);
+  padding-bottom: var(--space-16);
+  border-bottom: 1px solid var(--color-card-border-inner);
+}
+
+.card-header h2 {
+  font-size: var(--font-size-2xl);
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
+  margin: 0;
+}
+
+.card-header i {
+  color: var(--color-primary);
+  font-size: var(--font-size-2xl);
+}
+
+.category-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: var(--space-12);
+  margin-bottom: var(--space-16);
+  padding: var(--space-16);
+  background: var(--color-background);
+  border-radius: var(--radius-base);
+  border: 1px solid var(--color-card-border);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.form-group label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+.form-control {
+  padding: var(--space-10) var(--space-12);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  background: var(--color-surface);
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+}
+
+select.form-control {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: var(--select-caret-light);
+  background-repeat: no-repeat;
+  background-position: right var(--space-12) center;
+  background-size: 16px;
+  padding-right: var(--space-32);
+}
+
+@media (prefers-color-scheme: dark) {
+  select.form-control {
+    background-image: var(--select-caret-dark);
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  padding: var(--space-10) var(--space-16);
+  border: none;
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-btn-primary-text);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.btn-secondary {
+  background: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.btn-secondary:hover {
+  background: var(--color-secondary-hover);
+}
+
+.btn-danger {
+  background: rgba(var(--color-error-rgb), 0.15);
+  color: var(--color-error);
+}
+
+.btn-danger:hover {
+  background: rgba(var(--color-error-rgb), 0.25);
+}
+
+.btn-icon {
+  padding: var(--space-8);
+  min-width: 36px;
+  height: 36px;
+}
+
+.btn-group {
+  display: flex;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+}
+
+.action-buttons {
+  margin-top: var(--space-20);
+  padding-top: var(--space-20);
+  border-top: 1px solid var(--color-card-border-inner);
+}
+
+.results-section {
+  margin-top: var(--space-24);
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--radius-base);
+  border: 1px solid var(--color-card-border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+thead {
+  background: var(--color-secondary);
+}
+
+th {
+  padding: var(--space-12);
+  text-align: left;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-card-border-inner);
+  white-space: nowrap;
+}
+
+td {
+  padding: var(--space-12);
+  border-bottom: 1px solid var(--color-card-border-inner);
+  color: var(--color-text);
+}
+
+tbody tr:hover {
+  background: var(--color-secondary);
+}
+
+tfoot {
+  background: var(--color-bg-1);
+  font-weight: var(--font-weight-semibold);
+}
+
+tfoot td {
+  border-bottom: none;
+}
+
+.cost-section {
+  margin-top: var(--space-24);
+  padding: var(--space-20);
+  background: var(--color-bg-2);
+  border-radius: var(--radius-base);
+  border: 1px solid var(--color-card-border);
+}
+
+.cost-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-16);
+  margin-bottom: var(--space-20);
+}
+
+.cost-total {
+  text-align: center;
+  padding: var(--space-20);
+  background: var(--color-surface);
+  border-radius: var(--radius-base);
+  border: 1px solid var(--color-card-border);
+}
+
+.cost-total h3 {
+  font-size: var(--font-size-2xl);
+  color: var(--color-text);
+  margin-bottom: var(--space-8);
+}
+
+.cost-total .amount {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+.info-panel {
+  margin-top: var(--space-24);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-base);
+  overflow: hidden;
+}
+
+.info-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-16);
+  background: var(--color-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.info-panel-header h3 {
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.info-panel-content {
+  padding: var(--space-20);
+  display: none;
+}
+
+.info-panel-content.active {
+  display: block;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-16);
+}
+
+.info-item {
+  padding: var(--space-16);
+  background: var(--color-background);
+  border-radius: var(--radius-base);
+  border: 1px solid var(--color-card-border);
+}
+
+.info-item h4 {
+  font-size: var(--font-size-base);
+  color: var(--color-primary);
+  margin-bottom: var(--space-8);
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.info-item p, .info-item ul {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: var(--space-6) 0;
+}
+
+.info-item ul {
+  padding-left: var(--space-20);
+}
+
+.info-item li {
+  margin-bottom: var(--space-4);
+}
+
+.alert {
+  padding: var(--space-16);
+  border-radius: var(--radius-base);
+  margin-bottom: var(--space-16);
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+}
+
+.alert-success {
+  background: rgba(var(--color-success-rgb), 0.15);
+  color: var(--color-success);
+  border: 1px solid rgba(var(--color-success-rgb), 0.25);
+}
+
+.alert-info {
+  background: rgba(var(--color-info-rgb), 0.15);
+  color: var(--color-info);
+  border: 1px solid rgba(var(--color-info-rgb), 0.25);
+}
+
+.alert-warning {
+  background: rgba(var(--color-warning-rgb), 0.15);
+  color: var(--color-warning);
+  border: 1px solid rgba(var(--color-warning-rgb), 0.25);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.error-message {
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+  margin-top: var(--space-4);
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+}
+
+.tooltip:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--space-8);
+  background: var(--color-charcoal-800);
+  color: var(--color-gray-200);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-xs);
+  white-space: nowrap;
+  z-index: 1000;
+  margin-bottom: var(--space-4);
+}
+
+@media (max-width: 768px) {
+  .category-item {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-group {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  table {
+    font-size: var(--font-size-xs);
+  }
+
+  th, td {
+    padding: var(--space-8);
+  }
+}
+
+@media print {
+  .action-buttons, .btn, .info-panel-header {
+    display: none !important;
+  }
+
+  .info-panel-content {
+    display: block !important;
+  }
+}
+    </style>
+</head>
+<body>
+    <script>
+      // Redirect if not logged in
+      if (localStorage.getItem("authenticated") !== "true") {
+        window.location.href = "index.html";
+      }
+    </script>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-ruler-combined"></i> Interior Design Material Calculator</h1>
+            <p>Calculate accurate material requirements for your interior design projects</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Input Section -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-edit"></i>
+                    <h2>Project Categories</h2>
+                </div>
+
+                <div id="categoriesContainer"></div>
+
+                <div class="action-buttons">
+                    <div class="btn-group">
+                        <button class="btn btn-secondary" onclick="addCategory()">
+                            <i class="fas fa-plus"></i> Add Category
+                        </button>
+                        <button class="btn btn-primary" onclick="calculateMaterials()">
+                            <i class="fas fa-calculator"></i> Calculate Materials
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearAll()">
+                            <i class="fas fa-trash"></i> Clear All
+                        </button>
+                        <button class="btn btn-secondary" onclick="window.print()">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="results-section hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        <h2>Material Requirements</h2>
+                    </div>
+
+                    <div id="successAlert" class="alert alert-success hidden">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Calculations completed successfully!</span>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="resultsTable">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Surface Area (sq ft)</th>
+                                    <th><i class="fas fa-layer-group"></i> Plywood Sheets</th>
+                                    <th><i class="fas fa-border-style"></i> Outer Laminate</th>
+                                    <th><i class="fas fa-border-style"></i> Inter Laminate</th>
+                                    <th><i class="fas fa-fill-drip"></i> Fevicol (kg)</th>
+                                    <th><i class="fas fa-ruler-horizontal"></i> Edge Band (ft)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsBody"></tbody>
+                            <tfoot id="resultsFooter"></tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Edge Banding Note -->
+                    <div class="alert alert-info" style="margin-top: var(--space-16);">
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <strong>Note on Edge Banding:</strong> The edge banding shown is a rough estimate. For accurate measurements, calculate the perimeter of all component edges in running feet based on your detailed design.
+                        </div>
+                    </div>
+
+                    <!-- Hardware Note -->
+                    <div class="alert alert-warning" style="margin-top: var(--space-16);">
+                        <i class="fas fa-tools"></i>
+                        <div>
+                            <strong>Hardware Requirements:</strong> Hardware is design-specific and includes hinges, handles, drawer channels, screws, soft-close mechanisms, and organizers. Create a detailed list based on your final design.
+                        </div>
+                    </div>
+
+                    <!-- Cost Estimation Section -->
+                    <div class="cost-section">
+                        <h3 style="margin-bottom: var(--space-16); display: flex; align-items: center; gap: var(--space-8);">
+                            <i class="fas fa-rupee-sign"></i> Cost Estimation
+                        </h3>
+                        <div class="cost-inputs">
+                            <div class="form-group">
+                                <label for="plywoodPrice">Plywood Price per Sheet (₹)</label>
+                                <input type="number" id="plywoodPrice" class="form-control" value="3600" min="0" step="10" onchange="calculateCost()">
+                            </div>
+                            <div class="form-group">
+                                <label for="laminatePrice">Laminate Price per Sheet (₹)</label>
+                                <input type="number" id="laminatePrice" class="form-control" value="2000" min="0" step="10" onchange="calculateCost()">
+                            </div>
+                            <div class="form-group">
+                                <label for="adhesivePrice">Fevicol Pro Bind per kg (₹)</label>
+                                <input type="number" id="adhesivePrice" class="form-control" value="350" min="0" step="10" onchange="calculateCost()">
+                            </div>
+                            <div class="form-group">
+                                <label for="edgeBandingPrice">Edge Banding per ft (₹)</label>
+                                <input type="number" id="edgeBandingPrice" class="form-control" value="15" min="0" step="1" onchange="calculateCost()">
+                            </div>
+                            <div class="form-group">
+                                <label for="labourRate">Labour Cost per sq ft (₹)</label>
+                                <input type="number" id="labourRate" class="form-control" value="200" min="0" step="10" onchange="calculateCost()">
+                            </div>
+                            <div class="form-group">
+                                <label for="hardwareCost">Hardware Cost (₹)</label>
+                                <input type="number" id="hardwareCost" class="form-control" value="0" min="0" step="100" onchange="calculateCost()">
+                            </div>
+                            <div class="form-group">
+                                <label for="profileGlass">Profile Glass Cost (₹)</label>
+                                <input type="number" id="profileGlass" class="form-control" value="0" min="0" step="100" onchange="calculateCost()">
+                            </div>
+                            <div class="form-group">
+                                <label for="miscExpenses">Misc Expenses (₹)</label>
+                                <input type="number" id="miscExpenses" class="form-control" value="0" min="0" step="100" onchange="calculateCost()">
+                            </div>
+                        </div>
+                        <div class="cost-total">
+                            <h3>Total Estimated Cost</h3>
+                            <div class="amount" id="totalCost">₹ 0</div>
+                            <p style="color: var(--color-text-secondary); margin-top: var(--space-8); font-size: var(--font-size-sm);">Includes material, labour, and hardware — excludes taxes and transport</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Information Panel -->
+            <div class="info-panel">
+                <div class="info-panel-header" onclick="toggleInfoPanel()">
+                    <h3><i class="fas fa-info-circle"></i> Material Information &amp; Guidelines</h3>
+                    <i class="fas fa-chevron-down" id="infoPanelIcon"></i>
+                </div>
+                <div class="info-panel-content" id="infoPanelContent">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <h4><i class="fas fa-layer-group"></i> Plywood</h4>
+                            <p><strong>Standard Size:</strong> 8 ft × 4 ft (32 sq ft)</p>
+                            <p><strong>Common Thickness:</strong> 6mm, 9mm, 12mm, 18mm, 25mm</p>
+                            <p><strong>Wastage Factor:</strong> 10% included in calculations</p>
+                        </div>
+
+                        <div class="info-item">
+                            <h4><i class="fas fa-border-style"></i> Laminate</h4>
+                            <p><strong>Standard Size:</strong> 8 ft × 4 ft (32 sq ft)</p>
+                            <p><strong>Types:</strong></p>
+                            <ul>
+                                <li>Outer Laminate (Decorative)</li>
+                                <li>Inter Laminate (Inner surfaces)</li>
+                            </ul>
+                            <p><strong>Wastage Factor:</strong> 10% included</p>
+                        </div>
+
+                        <div class="info-item">
+                            <h4><i class="fas fa-fill-drip"></i> Fevicol Pro Bind</h4>
+                            <p><strong>Coverage:</strong> 32-36 sq ft per kg (avg: 34 sq ft)</p>
+                            <p><strong>Application:</strong> Both sides of plywood for laminate bonding</p>
+                            <p><strong>Usage:</strong> Essential for permanent laminate adhesion</p>
+                        </div>
+
+                        <div class="info-item">
+                            <h4><i class="fas fa-ruler-horizontal"></i> Edge Banding</h4>
+                            <p><strong>Measurement:</strong> Running feet</p>
+                            <p><strong>Common Widths:</strong> 18mm, 22mm, 25mm, 28mm</p>
+                            <p><strong>Note:</strong> Requires detailed component perimeter measurements for accuracy</p>
+                        </div>
+
+                        <div class="info-item">
+                            <h4><i class="fas fa-tools"></i> Hardware Items</h4>
+                            <ul>
+                                <li>Hinges</li>
+                                <li>Handles/Knobs</li>
+                                <li>Drawer channels/slides</li>
+                                <li>Screws and fasteners</li>
+                                <li>Soft-close mechanisms</li>
+                                <li>Lift-up systems</li>
+                                <li>Pull-out organizers</li>
+                            </ul>
+                        </div>
+
+                        <div class="info-item">
+                            <h4><i class="fas fa-ruler-combined"></i> Measurement Tips</h4>
+                            <p><strong>Kitchen:</strong> Measure all base cabinets, wall cabinets, tall units, and loft areas</p>
+                            <p><strong>Wardrobe:</strong> Include all shutters, internal shelves, and drawer components</p>
+                            <p><strong>General:</strong> Length × Height for vertical surfaces, Length × Width for horizontal</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Application state
+        let categories = [];
+        let categoryCounter = 0;
+        const predefinedCategories = [
+            'KITCHEN', 'LIVING AREA', 'TV UNIT', 'WARDROBE', 'BEDROOM',
+            'DRAWERS', 'STUDY UNIT', 'DINING AREA', 'POOJA UNIT',
+            'CROCKERY UNIT', 'SHOE RACK', 'CUSTOM'
+        ];
+
+        // Material constants
+        const CONSTANTS = {
+            PLYWOOD_SHEET_AREA: 32,
+            LAMINATE_SHEET_AREA: 32,
+            WASTAGE_FACTOR: 1.10,
+            ADHESIVE_COVERAGE: 34,
+            ADHESIVE_SIDES: 2,
+            EDGE_BANDING_FACTOR: 0.5
+        };
+
+        // Initialize the app
+        function init() {
+            addCategory();
+        }
+
+        // Add a new category
+        function addCategory() {
+            categoryCounter++;
+            const category = {
+                id: categoryCounter,
+                name: '',
+                area: ''
+            };
+            categories.push(category);
+            renderCategories();
+
+            // Focus on the new category input
+            setTimeout(() => {
+                const newSelect = document.querySelector(`#category-${categoryCounter} select`);
+                if (newSelect) newSelect.focus();
+            }, 100);
+        }
+
+        // Remove a category
+        function removeCategory(id) {
+            categories = categories.filter(cat => cat.id !== id);
+            renderCategories();
+
+            // If no categories left, add one
+            if (categories.length === 0) {
+                addCategory();
+            }
+        }
+
+        // Render all categories
+        function renderCategories() {
+            const container = document.getElementById('categoriesContainer');
+            container.innerHTML = categories.map(cat => `
+                <div class="category-item" id="category-${cat.id}">
+                    <div class="form-group">
+                        <label for="name-${cat.id}">Category Name</label>
+                        <select id="name-${cat.id}" class="form-control" onchange="updateCategory(${cat.id}, 'name', this.value)">
+                            <option value="">Select category...</option>
+                            ${predefinedCategories.map(name =>
+                                `<option value="${name}" ${cat.name === name ? 'selected' : ''}>${name}</option>`
+                            ).join('')}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="area-${cat.id}">Surface Area (sq ft)</label>
+                        <input
+                            type="number"
+                            id="area-${cat.id}"
+                            class="form-control"
+                            placeholder="Enter area in sq ft"
+                            value="${cat.area}"
+                            min="0"
+                            step="0.01"
+                            onchange="updateCategory(${cat.id}, 'area', this.value)"
+                        >
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: flex-end;">
+                        <button class="btn btn-danger btn-icon" onclick="removeCategory(${cat.id})" title="Remove category">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update category data
+        function updateCategory(id, field, value) {
+            const category = categories.find(cat => cat.id === id);
+            if (category) {
+                category[field] = value;
+            }
+        }
+
+        // Validate inputs
+        function validateInputs() {
+            const errors = [];
+
+            if (categories.length === 0) {
+                errors.push('Please add at least one category');
+            }
+
+            categories.forEach((cat, index) => {
+                if (!cat.name || cat.name === '') {
+                    errors.push(`Category ${index + 1}: Please select a category name`);
+                }
+                if (!cat.area || cat.area === '' || parseFloat(cat.area) <= 0) {
+                    errors.push(`Category ${index + 1}: Please enter a valid surface area`);
+                }
+            });
+
+            return errors;
+        }
+
+        // Calculate materials
+        function calculateMaterials() {
+            const errors = validateInputs();
+
+            if (errors.length > 0) {
+                alert('Please fix the following errors:\n\n' + errors.join('\n'));
+                return;
+            }
+
+            const results = categories.map(cat => {
+                const area = parseFloat(cat.area);
+
+                // Calculate plywood sheets (with wastage, rounded up)
+                const plywoodSheets = Math.ceil((area / CONSTANTS.PLYWOOD_SHEET_AREA) * CONSTANTS.WASTAGE_FACTOR);
+
+                // Calculate outer laminate sheets (with wastage, rounded up)
+                const outerLaminateSheets = Math.ceil((area / CONSTANTS.LAMINATE_SHEET_AREA) * CONSTANTS.WASTAGE_FACTOR);
+
+                // Calculate inter laminate sheets (with wastage, rounded up)
+                const interLaminateSheets = Math.ceil((area / CONSTANTS.LAMINATE_SHEET_AREA) * CONSTANTS.WASTAGE_FACTOR);
+
+                // Calculate adhesive (both sides, 2 decimal places)
+                const adhesive = parseFloat(((area * CONSTANTS.ADHESIVE_SIDES) / CONSTANTS.ADHESIVE_COVERAGE).toFixed(2));
+
+                // Calculate edge banding estimate (rough approximation)
+                const edgeBanding = parseFloat((area * CONSTANTS.EDGE_BANDING_FACTOR).toFixed(2));
+
+                return {
+                    category: cat.name,
+                    area: area,
+                    plywood: plywoodSheets,
+                    outerLaminate: outerLaminateSheets,
+                    interLaminate: interLaminateSheets,
+                    adhesive: adhesive,
+                    edgeBanding: edgeBanding
+                };
+            });
+
+            displayResults(results);
+        }
+
+        // Display results
+        function displayResults(results) {
+            const tbody = document.getElementById('resultsBody');
+            const tfoot = document.getElementById('resultsFooter');
+
+            // Calculate totals
+            const totals = results.reduce((acc, result) => ({
+                area: acc.area + result.area,
+                plywood: acc.plywood + result.plywood,
+                outerLaminate: acc.outerLaminate + result.outerLaminate,
+                interLaminate: acc.interLaminate + result.interLaminate,
+                adhesive: acc.adhesive + result.adhesive,
+                edgeBanding: acc.edgeBanding + result.edgeBanding
+            }), { area: 0, plywood: 0, outerLaminate: 0, interLaminate: 0, adhesive: 0, edgeBanding: 0 });
+
+            // Render results rows
+            tbody.innerHTML = results.map(result => `
+                <tr>
+                    <td><strong>${result.category}</strong></td>
+                    <td>${result.area.toFixed(2)}</td>
+                    <td>${result.plywood}</td>
+                    <td>${result.outerLaminate}</td>
+                    <td>${result.interLaminate}</td>
+                    <td>${result.adhesive.toFixed(2)}</td>
+                    <td>${result.edgeBanding.toFixed(2)}</td>
+                </tr>
+            `).join('');
+
+            // Render totals row
+            tfoot.innerHTML = `
+                <tr>
+                    <td><strong>TOTAL</strong></td>
+                    <td><strong>${totals.area.toFixed(2)}</strong></td>
+                    <td><strong>${totals.plywood}</strong></td>
+                    <td><strong>${totals.outerLaminate}</strong></td>
+                    <td><strong>${totals.interLaminate}</strong></td>
+                    <td><strong>${totals.adhesive.toFixed(2)}</strong></td>
+                    <td><strong>${totals.edgeBanding.toFixed(2)}</strong></td>
+                </tr>
+            `;
+
+            // Show results section
+            document.getElementById('resultsSection').classList.remove('hidden');
+            document.getElementById('successAlert').classList.remove('hidden');
+
+            // Calculate cost
+            calculateCost();
+
+            // Scroll to results
+            setTimeout(() => {
+                document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+
+            // Hide success alert after 5 seconds
+            setTimeout(() => {
+                document.getElementById('successAlert').classList.add('hidden');
+            }, 5000);
+        }
+
+        // Calculate total cost
+        function calculateCost() {
+            const resultsBody = document.getElementById('resultsBody');
+            if (!resultsBody || resultsBody.children.length === 0) return;
+
+            const plywoodPrice = parseFloat(document.getElementById('plywoodPrice').value) || 0;
+            const laminatePrice = parseFloat(document.getElementById('laminatePrice').value) || 0;
+            const adhesivePrice = parseFloat(document.getElementById('adhesivePrice').value) || 0;
+            const edgeBandingPrice = parseFloat(document.getElementById('edgeBandingPrice').value) || 0;
+            const labourRate = parseFloat(document.getElementById('labourRate').value) || 0;
+            const hardwareCost = parseFloat(document.getElementById('hardwareCost').value) || 0;
+            const profileGlass = parseFloat(document.getElementById('profileGlass').value) || 0;
+            const miscExpenses = parseFloat(document.getElementById('miscExpenses').value) || 0;
+
+
+            const tfoot = document.getElementById('resultsFooter');
+            const totalRow = tfoot.querySelector('tr');
+            if (!totalRow) return;
+            const cells = totalRow.querySelectorAll('td');
+
+            const totalArea = parseFloat(cells[1].textContent) || 0;
+            const totalPlywood = parseInt(cells[2].textContent) || 0;
+            const totalOuterLaminate = parseInt(cells[3].textContent) || 0;
+            const totalInterLaminate = parseInt(cells[4].textContent) || 0;
+            const totalAdhesive = parseFloat(cells[5].textContent) || 0;
+            const totalEdgeBanding = parseFloat(cells[6].textContent) || 0;
+
+            const materialCost =
+                (totalPlywood * plywoodPrice) +
+                ((totalOuterLaminate + totalInterLaminate) * laminatePrice) +
+                (totalAdhesive * adhesivePrice) +
+                (totalEdgeBanding * edgeBandingPrice);
+
+            const labourCost = totalArea * labourRate;
+
+            const grandTotal = materialCost + labourCost + hardwareCost + profileGlass + miscExpenses ;
+
+            document.getElementById('totalCost').textContent = `₹ ${grandTotal.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+        }
+
+        // Clear all data
+        function clearAll() {
+            if (confirm('Are you sure you want to clear all data? This action cannot be undone.')) {
+                categories = [];
+                categoryCounter = 0;
+                document.getElementById('resultsSection').classList.add('hidden');
+                addCategory();
+            }
+        }
+
+        // Toggle information panel
+        function toggleInfoPanel() {
+            const content = document.getElementById('infoPanelContent');
+            const icon = document.getElementById('infoPanelIcon');
+
+            content.classList.toggle('active');
+
+            if (content.classList.contains('active')) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+
+        // Initialize the application
+        init();
+    </script>
+    <script src="calculator.js"></script>
+</body>
+</html>
